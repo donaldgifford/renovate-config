@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "schedule": ["before 6am on monday"],
+  "timezone": "America/Detroit",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+  "major": { "automerge": false },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "addLabels": ["security"]
+  }
+}

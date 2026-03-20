@@ -1,0 +1,22 @@
+{
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchFileNames": [
+        ".github/**",
+        ".goreleaser.yml",
+        "Makefile",
+        ".golangci.yml"
+      ],
+      "addLabels": ["dont-release"]
+    }
+  ]
+}
