@@ -1,0 +1,27 @@
+{
+  "cargo": {
+    "rangeStrategy": "update-lockfile"
+  },
+  "packageRules": [
+    // --- Group non-major Cargo updates into one PR ---
+    {
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "rust crates (non-major)",
+      "addLabels": ["patch"]
+    },
+    // --- Major bumps get individual PRs ---
+    {
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    },
+    // --- Lockfile-only bumps are low risk, automerge ---
+    {
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": true,
+      "addLabels": ["patch"]
+    }
+  ]
+}

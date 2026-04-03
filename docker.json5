@@ -1,0 +1,20 @@
+{
+  "dockerfile": {
+    "pinDigests": true
+  },
+  "customManagers": [
+    // --- Track version variables in docker-bake.hcl ---
+    // Annotate variables with a renovate comment:
+    //   # renovate: image=golang
+    //   variable "GO_IMAGE_TAG" { default = "1.23.2-bookworm" }
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)docker-bake\\.hcl$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nvariable\\s+\"[^\"]+\"\\s*\\{\\s*default\\s*=\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ]
+}
