@@ -30,11 +30,11 @@ Presets are JSON5 files in the repo root, organized in three layers:
 - `helm.json5` — scoped to `charts/`, per-chart branches, appVersion
   tracking via Docker tags
 - `kustomize.json5` — no automerge, `dont-release` labels
-- `actions.json5` — pin digests, group non-major, no automerge on major
 
 **Cross-cutting (compose as needed):**
 
-- `ci.json5` — `dont-release` labels for Actions, Dockerfiles, config files
+- `ci.json5` — Actions (pin digests, group non-major, no automerge on
+  major), `dont-release` labels for Actions/Dockerfiles/config files
 - `docker.json5` — pin Dockerfile digests, regex for `docker-bake.hcl`
 - `mise.json5` — regex manager for `mise.toml` (needs `# renovate:`
   annotations)

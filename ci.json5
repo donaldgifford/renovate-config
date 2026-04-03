@@ -6,6 +6,20 @@
       "pinDigests": true,
       "addLabels": ["dont-release"]
     },
+    // --- Group non-major Actions updates ---
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "github actions (non-major)",
+      "addLabels": ["patch"]
+    },
+    // --- Major Actions bumps get individual PRs ---
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["minor"]
+    },
     // --- Dockerfile updates: label as dont-release ---
     {
       "matchManagers": ["dockerfile"],

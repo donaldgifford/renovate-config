@@ -69,7 +69,7 @@ Presets are organized into three layers:
 
 ```
 Layer 1: Base        default.json5
-Layer 2: Ecosystem   go / rust / node / terraform / helm / kustomize / actions
+Layer 2: Ecosystem   go / rust / node / terraform / helm / kustomize
 Layer 3: Cross-cut   ci / docker / mise
 ```
 
@@ -117,8 +117,7 @@ Example for a Go repo with Docker and mise:
 | `terraform.json5` | Ecosystem | `terraform`, `terragrunt` | Pin provider digests, scoped lockfile maintenance, group providers and modules separately, regex manager for boilerplate variables |
 | `helm.json5` | Ecosystem | `helmv3` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
 | `kustomize.json5` | Ecosystem | `kustomize` | No automerge, group non-major image bumps, `dont-release` labels |
-| `actions.json5` | Ecosystem | `github-actions` | Pin digests, group non-major, no automerge on major bumps |
-| `ci.json5` | Cross-cut | `github-actions`, `dockerfile`, file patterns | `dont-release` labels for Actions, Dockerfiles, `.github/**`, `Makefile` |
+| `ci.json5` | Cross-cut | `github-actions`, `dockerfile`, file patterns | Pin Actions digests, group non-major Actions, no automerge on major Actions bumps, `dont-release` labels for Actions/Dockerfiles/config |
 | `docker.json5` | Cross-cut | `dockerfile`, custom regex | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables |
 | `mise.json5` | Cross-cut | custom regex | Regex manager for pinned versions in `mise.toml`/`.mise.toml`, requires `# renovate:` annotations |
 
@@ -184,13 +183,11 @@ affects all consumers on their next Renovate run.
 
 Renovate configs are validated using:
 
-```bash
-npx --yes renovate --validate-config=strict <file>
-```
+1. `renovate-config-validator --strict` — validates syntax, semantics, and
+   deprecated options against every `.json5` file
+2. `prettier --check "*.json5"` — enforces consistent formatting
 
-CI should run this against every `.json5` file on every PR to catch syntax
-errors, unknown options, and deprecated fields. See the CI workflow section
-below for the recommended GitHub Actions setup.
+CI runs both on every PR via `.github/workflows/validate.yml`.
 
 ## Adding a New Preset
 
@@ -229,9 +226,6 @@ For new repos:
 
 ## Open Questions
 
-- Should `ci.json5` and `actions.json5` be merged? Currently `ci.json5`
-  handles labeling while `actions.json5` handles grouping/versioning. Repos
-  using both get complete Actions coverage, but this split may confuse users.
 - Should we add a `python.json5` preset for future Python repos?
 - Should lockfile maintenance be scoped per-preset or enabled globally in
   `default.json5`?

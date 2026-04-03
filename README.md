@@ -98,19 +98,6 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 }
 ```
 
-### GitHub Actions-only repos
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "github>donaldgifford/renovate-config",
-    "github>donaldgifford/renovate-config:actions",
-    "github>donaldgifford/renovate-config:ci"
-  ]
-}
-```
-
 ### Helm chart repos
 
 ```json
@@ -143,13 +130,12 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 | `terraform.json5` | Terragrunt support, pin provider digests, scoped lockfile maintenance, groups providers/modules separately, regex manager for boilerplate variables |
 | `helm.json5` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
 | `kustomize.json5` | No automerge, groups non-major image bumps, `dont-release` labels |
-| `actions.json5` | Pin digests, group non-major Actions updates, no automerge on major bumps |
 
 ### Cross-cutting
 
 | Preset | Description |
 |--------|-------------|
-| `ci.json5` | `dont-release` labels for Actions, Dockerfiles, `.github/**`, `Makefile` |
+| `ci.json5` | Actions: pin digests, group non-major, no automerge on major. Labels Actions/Dockerfiles/config as `dont-release` |
 | `docker.json5` | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables |
 | `mise.json5` | Regex manager for pinned versions in `mise.toml` / `.mise.toml`, requires `# renovate:` annotations |
 
