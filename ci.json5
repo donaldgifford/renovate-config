@@ -1,37 +1,34 @@
 {
-  "packageRules": [
+  packageRules: [
     // --- GitHub Actions: pin digests, label as dont-release ---
     {
-      "matchManagers": ["github-actions"],
-      "pinDigests": true,
-      "addLabels": ["dont-release"]
+      matchManagers: ["github-actions"],
+      pinDigests: true,
+      addLabels: ["dont-release"],
     },
     // --- Group non-major Actions updates ---
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "github actions (non-major)",
-      "addLabels": ["patch"]
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "github actions (non-major)",
+      addLabels: ["patch"],
     },
     // --- Major Actions bumps get individual PRs ---
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["major"],
-      "automerge": false,
-      "addLabels": ["minor"]
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      addLabels: ["minor"],
     },
     // --- Dockerfile updates: label as dont-release ---
     {
-      "matchManagers": ["dockerfile"],
-      "addLabels": ["dont-release"]
+      matchManagers: ["dockerfile"],
+      addLabels: ["dont-release"],
     },
     // --- CI/config file updates: label as dont-release ---
     {
-      "matchFileNames": [
-        ".github/**",
-        "Makefile"
-      ],
-      "addLabels": ["dont-release"]
-    }
-  ]
+      matchFileNames: [".github/**", "Makefile"],
+      addLabels: ["dont-release"],
+    },
+  ],
 }

@@ -1,35 +1,32 @@
 {
-  "gomod": {
-    "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+  gomod: {
+    postUpdateOptions: ["gomodTidy", "gomodUpdateImportPaths"],
   },
-  "packageRules": [
+  packageRules: [
     // --- Group non-major Go module updates into one PR ---
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "go modules (non-major)",
-      "addLabels": ["patch"]
+      matchManagers: ["gomod"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "go modules (non-major)",
+      addLabels: ["patch"],
     },
     // --- Major bumps get individual PRs ---
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      matchManagers: ["gomod"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
     },
     // --- Don't automerge Go toolchain/version bumps ---
     {
-      "matchDepNames": ["go"],
-      "matchManagers": ["gomod"],
-      "automerge": false,
-      "addLabels": ["minor"]
+      matchDepNames: ["go"],
+      matchManagers: ["gomod"],
+      automerge: false,
+      addLabels: ["minor"],
     },
     // --- Go tooling config files: label as dont-release ---
     {
-      "matchFileNames": [
-        ".goreleaser.yml",
-        ".golangci.yml"
-      ],
-      "addLabels": ["dont-release"]
-    }
-  ]
+      matchFileNames: [".goreleaser.yml", ".golangci.yml"],
+      addLabels: ["dont-release"],
+    },
+  ],
 }

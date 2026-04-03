@@ -1,51 +1,51 @@
 {
-  "terraform": {
-    "pinDigests": true
+  terraform: {
+    pinDigests: true,
   },
-  "packageRules": [
+  packageRules: [
     // --- Group non-major provider updates (terraform + terragrunt) ---
     {
-      "matchManagers": ["terraform", "terragrunt"],
-      "matchDepTypes": ["provider"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "terraform providers (non-major)",
-      "addLabels": ["patch"]
+      matchManagers: ["terraform", "terragrunt"],
+      matchDepTypes: ["provider"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "terraform providers (non-major)",
+      addLabels: ["patch"],
     },
     // --- Group non-major module updates ---
     {
-      "matchManagers": ["terraform", "terragrunt"],
-      "matchDepTypes": ["module"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "terraform modules (non-major)",
-      "addLabels": ["patch"]
+      matchManagers: ["terraform", "terragrunt"],
+      matchDepTypes: ["module"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "terraform modules (non-major)",
+      addLabels: ["patch"],
     },
     // --- Major bumps get individual PRs, no automerge ---
     {
-      "matchManagers": ["terraform", "terragrunt"],
-      "matchUpdateTypes": ["major"],
-      "automerge": false,
-      "addLabels": ["minor"]
+      matchManagers: ["terraform", "terragrunt"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      addLabels: ["minor"],
     },
     // --- Lockfile maintenance for .terraform.lock.hcl ---
     {
-      "matchManagers": ["terraform"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "automerge": true,
-      "addLabels": ["patch"]
-    }
+      matchManagers: ["terraform"],
+      matchUpdateTypes: ["lockFileMaintenance"],
+      automerge: true,
+      addLabels: ["patch"],
+    },
   ],
-  "customManagers": [
+  customManagers: [
     // --- Track versions in boilerplate variables ---
     // Annotate with a renovate comment:
     //   # renovate: datasource=github-releases depName=gruntwork-io/terragrunt
     //   terragrunt_version = "0.68.0"
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)boilerplate\\.ya?ml$/"],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[\\w]+\\s*=\\s*\"v?(?<currentValue>[^\"]+)\""
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)boilerplate\\.ya?ml$/"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[\\w]+\\s*=\\s*"v?(?<currentValue>[^"]+)"',
       ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
-  ]
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+  ],
 }

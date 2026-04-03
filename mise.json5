@@ -1,5 +1,5 @@
 {
-  "customManagers": [
+  customManagers: [
     // --- Track pinned tool versions in mise.toml ---
     // Annotate each tool with a renovate comment:
     //   # renovate: datasource=github-releases depName=google/yamlfmt
@@ -13,29 +13,29 @@
     //
     // Tools pinned to "latest" don't need annotations.
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)mise\\.toml$/", "/(^|/)\\.mise\\.toml$/"],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]+=\\s*\"(?<currentValue>[^\"]+)\""
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)mise\\.toml$/", "/(^|/)\\.mise\\.toml$/"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]+=\\s*"(?<currentValue>[^"]+)"',
       ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
   ],
-  "packageRules": [
+  packageRules: [
     // --- Group non-major mise tool updates ---
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["mise.toml", ".mise.toml"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "mise tools (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["mise.toml", ".mise.toml"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "mise tools (non-major)",
+      addLabels: ["patch", "dont-release"],
     },
     // --- Major mise tool bumps get individual PRs ---
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["mise.toml", ".mise.toml"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
-    }
-  ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["mise.toml", ".mise.toml"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
 }

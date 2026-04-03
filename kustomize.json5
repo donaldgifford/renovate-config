@@ -1,23 +1,23 @@
 {
-  "packageRules": [
+  packageRules: [
     // --- Kustomize image updates — no automerge ---
     {
-      "matchManagers": ["kustomize"],
-      "automerge": false,
-      "addLabels": ["dont-release"]
+      matchManagers: ["kustomize"],
+      automerge: false,
+      addLabels: ["dont-release"],
     },
     // --- Group non-major kustomize image bumps ---
     {
-      "matchManagers": ["kustomize"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "kustomize images (non-major)",
-      "addLabels": ["patch"]
+      matchManagers: ["kustomize"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "kustomize images (non-major)",
+      addLabels: ["patch"],
     },
     // --- Major bumps get individual PRs ---
     {
-      "matchManagers": ["kustomize"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
-    }
-  ]
+      matchManagers: ["kustomize"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
 }
