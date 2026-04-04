@@ -1,0 +1,18 @@
+{
+  packageRules: [
+    // --- Group non-major flake input updates ---
+    {
+      matchManagers: ["nix"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "nix flake inputs (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major flake input bumps get individual PRs ---
+    {
+      matchManagers: ["nix"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      addLabels: ["minor"],
+    },
+  ],
+}

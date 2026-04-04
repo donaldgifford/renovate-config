@@ -98,6 +98,19 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 }
 ```
 
+### Nix flake repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:nix",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
 ### Helm chart repos
 
 ```json
@@ -130,6 +143,7 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 | `terraform.json5` | Terragrunt support, pin provider digests, scoped lockfile maintenance, groups providers/modules separately, regex manager for boilerplate variables |
 | `helm.json5` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
 | `kustomize.json5` | No automerge, groups non-major image bumps, `dont-release` labels |
+| `nix.json5` | Groups non-major flake inputs, no automerge on major input bumps |
 
 ### Cross-cutting
 
