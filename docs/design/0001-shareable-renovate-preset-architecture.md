@@ -69,7 +69,7 @@ Presets are organized into three layers:
 
 ```
 Layer 1: Base        default.json5
-Layer 2: Ecosystem   go / rust / node / terraform / helm / kustomize
+Layer 2: Ecosystem   go / rust / node / terraform / helm / kustomize / nix
 Layer 3: Cross-cut   ci / docker / mise
 ```
 
@@ -117,6 +117,7 @@ Example for a Go repo with Docker and mise:
 | `terraform.json5` | Ecosystem | `terraform`, `terragrunt` | Pin provider digests, scoped lockfile maintenance, group providers and modules separately, regex manager for boilerplate variables |
 | `helm.json5` | Ecosystem | `helmv3` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
 | `kustomize.json5` | Ecosystem | `kustomize` | No automerge, group non-major image bumps, `dont-release` labels |
+| `nix.json5` | Ecosystem | `nix` | Group non-major flake inputs, no automerge on major input bumps |
 | `ci.json5` | Cross-cut | `github-actions`, `dockerfile`, file patterns | Pin Actions digests, group non-major Actions, no automerge on major Actions bumps, `dont-release` labels for Actions/Dockerfiles/config |
 | `docker.json5` | Cross-cut | `dockerfile`, custom regex | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables |
 | `mise.json5` | Cross-cut | custom regex | Regex manager for pinned versions in `mise.toml`/`.mise.toml`, requires `# renovate:` annotations |

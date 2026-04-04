@@ -30,6 +30,7 @@ Presets are JSON5 files in the repo root, organized in three layers:
 - `helm.json5` — scoped to `charts/`, per-chart branches, appVersion
   tracking via Docker tags
 - `kustomize.json5` — no automerge, `dont-release` labels
+- `nix.json5` — groups non-major flake inputs, no automerge on major
 
 **Cross-cutting (compose as needed):**
 

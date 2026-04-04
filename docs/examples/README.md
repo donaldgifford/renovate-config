@@ -12,6 +12,7 @@ Copy the appropriate example to your repo as `renovate.json` and you're done.
 | [kustomize-k8s-project.json](kustomize-k8s-project.json) | Kubernetes manifests with Kustomize |
 | [helm-charts-repo.json](helm-charts-repo.json) | Helm charts monorepo |
 | [go-k8s-operator.json](go-k8s-operator.json) | Go-based K8s operator (Go + Kustomize + Docker) |
+| [nix-flake-project.json](nix-flake-project.json) | Nix flake project (flake.lock inputs) |
 
 ## Customizing
 
