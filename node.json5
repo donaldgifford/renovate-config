@@ -1,0 +1,36 @@
+{
+  npm: {
+    rangeStrategy: "update-lockfile",
+    postUpdateOptions: ["yarnDedupeHighest"],
+  },
+  packageRules: [
+    // --- Group non-major dependency updates ---
+    {
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "node packages (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major bumps get individual PRs ---
+    {
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+    // --- Group @types/* non-major packages together ---
+    {
+      matchManagers: ["npm"],
+      matchPackageNames: ["@types/**"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "type definitions",
+      addLabels: ["patch"],
+    },
+    // --- Don't automerge Node.js version bumps ---
+    {
+      matchDepNames: ["node"],
+      matchManagers: ["nodenv", "nvm", "npm"],
+      automerge: false,
+      addLabels: ["minor"],
+    },
+  ],
+}

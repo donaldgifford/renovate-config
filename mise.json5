@@ -1,0 +1,41 @@
+{
+  customManagers: [
+    // --- Track pinned tool versions in mise.toml ---
+    // Annotate each tool with a renovate comment:
+    //   # renovate: datasource=github-releases depName=google/yamlfmt
+    //   yamlfmt = "0.20.0"
+    //
+    //   # renovate: datasource=npm depName=prettier
+    //   prettier = "3.7.4"
+    //
+    //   # renovate: datasource=github-releases depName=donaldgifford/forge
+    //   "github:donaldgifford/forge" = "1.2.0"
+    //
+    // Tools pinned to "latest" don't need annotations.
+    {
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)mise\\.toml$/", "/(^|/)\\.mise\\.toml$/"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]+=\\s*"(?<currentValue>[^"]+)"',
+      ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+  ],
+  packageRules: [
+    // --- Group non-major mise tool updates ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["mise.toml", ".mise.toml"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "mise tools (non-major)",
+      addLabels: ["patch", "dont-release"],
+    },
+    // --- Major mise tool bumps get individual PRs ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["mise.toml", ".mise.toml"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
+}

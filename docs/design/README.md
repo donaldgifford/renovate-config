@@ -28,4 +28,9 @@ docz create design "Your Design Title"
 - **Abandoned**: Design was not pursued
 
 <!-- BEGIN DOCZ AUTO-GENERATED -->
+## All DESIGNs
+
+| ID | Title | Status | Date | Author | Link |
+|----|-------|--------|------|--------|------|
+| DESIGN-0001 | Shareable Renovate Preset Architecture | Draft | 2026-04-03 | Donald Gifford | [0001-shareable-renovate-preset-architecture.md](0001-shareable-renovate-preset-architecture.md) |
 <!-- END DOCZ AUTO-GENERATED -->

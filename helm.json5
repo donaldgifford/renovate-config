@@ -1,0 +1,43 @@
+{
+  packageRules: [
+    // --- Helm chart dependency updates scoped to charts/, no automerge ---
+    {
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      automerge: false,
+      additionalBranchPrefix: "{{packageFileDir}}/",
+      commitMessagePrefix: "chart({{packageFileDir}}):",
+    },
+    // --- Group non-major chart dep bumps per chart directory ---
+    {
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      automerge: false,
+      groupName: "{{packageFileDir}} chart deps (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major chart dep bumps get individual PRs ---
+    {
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
+  customManagers: [
+    // --- Track appVersion in Chart.yaml against Docker image tags ---
+    // Each Chart.yaml must annotate appVersion with a comment on the line above:
+    //   # renovate: image=fleetdm/fleet
+    //   appVersion: "4.82.0"
+    {
+      customType: "regex",
+      managerFilePatterns: ["/charts/.+/Chart\\.yaml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nappVersion:\\s*[\"']?(?<currentValue>[^\"'\\s]+)",
+      ],
+      datasourceTemplate: "docker",
+      versioningTemplate: "semver",
+    },
+  ],
+}
