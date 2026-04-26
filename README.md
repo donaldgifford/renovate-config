@@ -98,6 +98,45 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 }
 ```
 
+### ArgoCD repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:argocd",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
+### Homebrew Brewfile repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:homebrew",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
+### Typst document repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:typst",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
 ### Nix flake repos
 
 ```json
@@ -144,6 +183,10 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 | `helm.json5` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
 | `kustomize.json5` | No automerge, groups non-major image bumps, `dont-release` labels |
 | `nix.json5` | Groups non-major flake inputs, no automerge on major input bumps |
+| `argocd.json5` | ArgoCD Application/ApplicationSet manifests, no automerge, groups non-major, `dont-release` labels |
+| `tflint.json5` | TFLint plugin updates, groups non-major, no automerge on major (compose with `terraform`) |
+| `homebrew.json5` | `Brewfile` formulae updates, groups non-major, no automerge on major, `dont-release` labels |
+| `typst.json5` | Regex manager for typst version pins in `.typ` files, requires `// renovate:` annotations |
 
 ### Cross-cutting
 
@@ -169,6 +212,19 @@ prettier = "3.7.4"
 ```
 
 Tools pinned to `"latest"` don't need annotations.
+
+### Typst annotations
+
+The `typst` preset requires annotating each tracked version reference in
+`.typ` files (Renovate has no native typst manager):
+
+```typst
+// renovate: datasource=github-tags depName=typst/typst
+#let typst-version = "0.13.0"
+
+// renovate: datasource=github-releases depName=typst-community/valkyrie
+#import "@preview/valkyrie:0.2.1": *
+```
 
 ## Labels
 

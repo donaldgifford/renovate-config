@@ -1,0 +1,23 @@
+{
+  packageRules: [
+    // --- ArgoCD Application updates: no automerge ---
+    {
+      matchManagers: ["argocd"],
+      automerge: false,
+      addLabels: ["dont-release"],
+    },
+    // --- Group non-major ArgoCD updates ---
+    {
+      matchManagers: ["argocd"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "argocd applications (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major bumps get individual PRs ---
+    {
+      matchManagers: ["argocd"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:terraform",
+    "github>donaldgifford/renovate-config:tflint",
+    "github>donaldgifford/renovate-config:mise",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}

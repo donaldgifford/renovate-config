@@ -1,0 +1,38 @@
+{
+  customManagers: [
+    // --- Track pinned versions in .typ files ---
+    // Renovate has no native typst manager. Annotate version references
+    // with a renovate comment:
+    //   // renovate: datasource=github-tags depName=typst/typst
+    //   #let typst-version = "0.13.0"
+    //
+    //   // renovate: datasource=github-releases depName=typst-community/valkyrie
+    //   #import "@preview/valkyrie:0.2.1": *
+    {
+      customType: "regex",
+      managerFilePatterns: ["/.*\\.typ$/"],
+      matchStrings: [
+        '//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^"]*"v?(?<currentValue>[^"]+)"',
+      ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+  ],
+  packageRules: [
+    // --- Group non-major typst package/version updates ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/*.typ"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "typst packages (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major typst bumps get individual PRs ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/*.typ"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      addLabels: ["minor"],
+    },
+  ],
+}

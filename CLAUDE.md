@@ -31,6 +31,11 @@ Presets are JSON5 files in the repo root, organized in three layers:
   tracking via Docker tags
 - `kustomize.json5` — no automerge, `dont-release` labels
 - `nix.json5` — groups non-major flake inputs, no automerge on major
+- `argocd.json5` — ArgoCD Applications, no automerge, `dont-release`
+- `tflint.json5` — TFLint plugin updates (compose with `terraform`)
+- `homebrew.json5` — `Brewfile` formulae, no automerge on major
+- `typst.json5` — regex manager for `.typ` files (needs `// renovate:`
+  annotations)
 
 **Cross-cutting (compose as needed):**
 

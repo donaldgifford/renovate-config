@@ -1,0 +1,18 @@
+{
+  packageRules: [
+    // --- Group non-major Homebrew formulae updates ---
+    {
+      matchManagers: ["homebrew"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "homebrew formulae (non-major)",
+      addLabels: ["patch", "dont-release"],
+    },
+    // --- Major formulae bumps get individual PRs ---
+    {
+      matchManagers: ["homebrew"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      addLabels: ["minor"],
+    },
+  ],
+}

@@ -25,9 +25,9 @@
       groupName: "type definitions",
       addLabels: ["patch"],
     },
-    // --- Don't automerge Node.js version bumps ---
+    // --- Don't automerge Node.js or bun runtime bumps ---
     {
-      matchDepNames: ["node"],
+      matchDepNames: ["node", "bun"],
       matchManagers: ["nodenv", "nvm", "npm"],
       automerge: false,
       addLabels: ["minor"],
