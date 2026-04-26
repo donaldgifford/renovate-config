@@ -55,10 +55,11 @@ CI runs on every PR via `.github/workflows/validate.yml`:
    deprecated options against every `.json5` file
 2. `prettier --check "*.json5"` — enforces consistent formatting
 
-To validate locally:
+To validate locally (the validator is bundled inside the `renovate` package, so
+install via `--package=renovate`):
 
 ```bash
-npx renovate-config-validator --strict <file>
+npx --yes --package=renovate -- renovate-config-validator --strict <file>
 prettier --check "*.json5"
 ```
 
@@ -80,9 +81,50 @@ Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):
   categories (lockfile maintenance, `@types/*`, trusted Actions publishers)
 - Don't add redundant `automerge: false` — base default already blocks it
 - Scope all rules with `matchManagers` to the relevant manager(s)
-- Custom managers (`custom.regex`) need their own packageRules scoped via
-  `matchFileNames` to label/group their updates
 - Group name pattern: `"<ecosystem> <thing> (non-major)"`
-- Custom manager annotations use `# renovate:` (or `// renovate:` for typst)
 - Labels: `dependencies` (base), `patch`, `minor`, `dont-release`, `security`
 - Schedule: weekly Monday before 6am, `America/Detroit`
+- Run `prettier --write "*.json5"` after editing — CI fails otherwise
+
+## Custom Managers
+
+Custom regex managers need a paired `packageRules` entry that matches
+`custom.regex` and scopes by `matchFileNames`, otherwise their updates land
+unlabeled and ungrouped. Annotation comment is `# renovate:` (or `// renovate:`
+for typst).
+
+```json5
+{
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)mise\\.toml$/"], // regex, not glob
+      matchStrings: ["..."],
+      // ...
+    },
+  ],
+  packageRules: [
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["mise.toml", ".mise.toml"], // scope to this preset's files
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "mise tools (non-major)",
+      addLabels: ["patch"],
+    },
+  ],
+}
+```
+
+## Common Pitfalls
+
+- `matchPackagePatterns` is deprecated — use `matchPackageNames` with glob
+  (`["@types/**"]`)
+- `cargoUpdate` postUpdateOption doesn't exist — use
+  `rangeStrategy: "update-lockfile"`
+- `managerFilePatterns` uses regex syntax wrapped in `/.../`, not glob
+- `lockFileMaintenance` is configured per packageRule via
+  `matchUpdateTypes: ["lockFileMaintenance"]`, not as a global key
+- `terragrunt` is a separate manager from `terraform` — match both when rules
+  apply to either
+- A custom regex manager whose `matchStrings` doesn't match the file format
+  (e.g. HCL syntax against a YAML file) silently catches nothing
