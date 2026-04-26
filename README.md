@@ -4,14 +4,13 @@ Shareable [Renovate](https://docs.renovatebot.com/) presets for
 `github>donaldgifford/renovate-config`. Compose presets via `"extends"` to get
 consistent dependency management across all repositories.
 
-See
-[DESIGN-0001](docs/design/0001-shareable-renovate-preset-architecture.md)
+See [DESIGN-0001](docs/design/0001-shareable-renovate-preset-architecture.md)
 for the full architecture and conventions.
 
 ## Usage
 
-Pick a base + ecosystem + cross-cutting presets for your repo. The `mise`
-preset requires `# renovate:` annotations in your `mise.toml` — see the
+Pick a base + ecosystem + cross-cutting presets for your repo. The `mise` preset
+requires `# renovate:` annotations in your `mise.toml` — see the
 [mise preset docs](#mise) below.
 
 ### Go repos
@@ -98,6 +97,45 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 }
 ```
 
+### ArgoCD repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:argocd",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
+### Homebrew Brewfile repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:homebrew",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
+### Typst document repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:typst",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
 ### Nix flake repos
 
 ```json
@@ -129,29 +167,47 @@ preset requires `# renovate:` annotations in your `mise.toml` — see the
 
 ### Base
 
-| Preset | Description |
-|--------|-------------|
-| `default.json5` | `config:recommended`, weekly Mon schedule (America/Detroit), automerge non-major, vulnerability alerts, PR limits (5 concurrent / 2 hourly) |
+| Preset          | Description                                                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default.json5` | `config:recommended`, weekly Mon schedule (America/Detroit), **PR by default (no automerge)**, vulnerability alerts, PR limits (5 concurrent / 2 hourly) |
 
 ### Ecosystem
 
-| Preset | Description |
-|--------|-------------|
-| `go.json5` | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, no automerge on toolchain bumps, `dont-release` for Go config files |
-| `rust.json5` | `update-lockfile` range strategy, groups non-major, automerge lockfile maintenance |
-| `node.json5` | `update-lockfile`, `yarnDedupeHighest`, groups non-major and `@types/*` separately, no automerge on Node version bumps |
-| `terraform.json5` | Terragrunt support, pin provider digests, scoped lockfile maintenance, groups providers/modules separately, regex manager for boilerplate variables |
-| `helm.json5` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
-| `kustomize.json5` | No automerge, groups non-major image bumps, `dont-release` labels |
-| `nix.json5` | Groups non-major flake inputs, no automerge on major input bumps |
+| Preset            | Description                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `go.json5`        | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, `dont-release` for Go config files                        |
+| `rust.json5`      | `update-lockfile` range strategy, groups non-major, **automerges lockfile maintenance**                            |
+| `node.json5`      | `update-lockfile`, `yarnDedupeHighest`, groups non-major, **automerges `@types/*`**                                |
+| `terraform.json5` | Terragrunt support, pin provider digests, groups providers/modules separately, **automerges lockfile maintenance** |
+| `helm.json5`      | Scoped to `charts/`, per-chart branch prefixes and commit messages, appVersion tracking via Docker tags            |
+| `kustomize.json5` | Groups non-major image bumps, `dont-release` labels                                                                |
+| `nix.json5`       | Groups non-major flake inputs                                                                                      |
+| `argocd.json5`    | ArgoCD Application/ApplicationSet manifests, groups non-major, `dont-release` labels                               |
+| `tflint.json5`    | TFLint plugin updates, groups non-major (compose with `terraform`)                                                 |
+| `homebrew.json5`  | `Brewfile` formulae updates, groups non-major, `dont-release` labels                                               |
+| `typst.json5`     | Regex manager for typst version pins in `.typ` files, requires `// renovate:` annotations                          |
 
 ### Cross-cutting
 
-| Preset | Description |
-|--------|-------------|
-| `ci.json5` | Actions: pin digests, group non-major, no automerge on major. Labels Actions/Dockerfiles/config as `dont-release` |
-| `docker.json5` | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables |
-| `mise.json5` | Regex manager for pinned versions in `mise.toml` / `.mise.toml`, requires `# renovate:` annotations |
+| Preset         | Description                                                                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.json5`     | Actions: pin digests, group non-major, **automerges trusted publishers** (`actions/*`, `github/*`, `docker/*`). Labels Actions/Dockerfiles/config as `dont-release` |
+| `docker.json5` | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables                                                                                   |
+| `mise.json5`   | Regex manager for pinned versions in `mise.toml` / `.mise.toml`, requires `# renovate:` annotations                                                                 |
+
+## Automerge policy
+
+PR by default. Renovate opens PRs and you review before merging. The few opt-in
+automerge categories are explicit:
+
+| Category               | Where                           | Why safe                                      |
+| ---------------------- | ------------------------------- | --------------------------------------------- |
+| Lockfile maintenance   | `rust.json5`, `terraform.json5` | Refreshes locks, no version semantics changed |
+| `@types/*` packages    | `node.json5`                    | No runtime impact                             |
+| Trusted GitHub Actions | `ci.json5`                      | `actions/*`, `github/*`, `docker/*` digests   |
+
+To override per-repo, add `automerge: false` for those matchers, or extend the
+trusted publisher list in `matchPackageNames`.
 
 ### Mise annotations {#mise}
 
@@ -170,20 +226,33 @@ prettier = "3.7.4"
 
 Tools pinned to `"latest"` don't need annotations.
 
+### Typst annotations
+
+The `typst` preset requires annotating each tracked version reference in `.typ`
+files (Renovate has no native typst manager):
+
+```typst
+// renovate: datasource=github-tags depName=typst/typst
+#let typst-version = "0.13.0"
+
+// renovate: datasource=github-releases depName=typst-community/valkyrie
+#import "@preview/valkyrie:0.2.1": *
+```
+
 ## Labels
 
-| Label | Applied When |
-|-------|-------------|
-| `dependencies` | Every Renovate PR |
-| `patch` | Non-major updates (minor, patch, digest, lockfile) |
-| `minor` | Major updates or runtime version bumps |
+| Label          | Applied When                                           |
+| -------------- | ------------------------------------------------------ |
+| `dependencies` | Every Renovate PR                                      |
+| `patch`        | Non-major updates (minor, patch, digest, lockfile)     |
+| `minor`        | Major updates or runtime version bumps                 |
 | `dont-release` | Infrastructure-only changes (CI, Docker, config, mise) |
-| `security` | Vulnerability alert PRs |
+| `security`     | Vulnerability alert PRs                                |
 
 ## Validation
 
-CI runs `renovate-config-validator --strict` and `prettier --check` against
-all `.json5` files on every PR (`.github/workflows/validate.yml`).
+CI runs `renovate-config-validator --strict` and `prettier --check` against all
+`.json5` files on every PR (`.github/workflows/validate.yml`).
 
 To validate locally:
 

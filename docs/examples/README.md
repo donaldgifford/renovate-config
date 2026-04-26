@@ -13,6 +13,10 @@ Copy the appropriate example to your repo as `renovate.json` and you're done.
 | [helm-charts-repo.json](helm-charts-repo.json) | Helm charts monorepo |
 | [go-k8s-operator.json](go-k8s-operator.json) | Go-based K8s operator (Go + Kustomize + Docker) |
 | [nix-flake-project.json](nix-flake-project.json) | Nix flake project (flake.lock inputs) |
+| [argocd-project.json](argocd-project.json) | ArgoCD Application/ApplicationSet manifests |
+| [homebrew-project.json](homebrew-project.json) | Brewfile-based dotfiles or dev environment |
+| [terraform-tflint-project.json](terraform-tflint-project.json) | Terraform + TFLint plugins |
+| [typst-project.json](typst-project.json) | Typst document repo with version pins |
 
 ## Customizing
 

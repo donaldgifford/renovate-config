@@ -1,20 +1,20 @@
 {
   packageRules: [
-    // --- Kustomize image updates: label as dont-release ---
+    // --- ArgoCD Application updates: label as dont-release ---
     {
-      matchManagers: ["kustomize"],
+      matchManagers: ["argocd"],
       addLabels: ["dont-release"],
     },
-    // --- Group non-major kustomize image bumps ---
+    // --- Group non-major ArgoCD updates ---
     {
-      matchManagers: ["kustomize"],
+      matchManagers: ["argocd"],
       matchUpdateTypes: ["minor", "patch", "digest"],
-      groupName: "kustomize images (non-major)",
+      groupName: "argocd applications (non-major)",
       addLabels: ["patch"],
     },
     // --- Major bumps get individual PRs ---
     {
-      matchManagers: ["kustomize"],
+      matchManagers: ["argocd"],
       matchUpdateTypes: ["major"],
       addLabels: ["minor"],
     },

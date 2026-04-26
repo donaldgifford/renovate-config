@@ -5,15 +5,15 @@ status: Draft
 author: Donald Gifford
 created: 2026-04-03
 ---
+
 <!-- markdownlint-disable-file MD025 MD041 -->
 
 # DESIGN 0001: Shareable Renovate Preset Architecture
 
-**Status:** Draft
-**Author:** Donald Gifford
-**Date:** 2026-04-03
+**Status:** Draft **Author:** Donald Gifford **Date:** 2026-04-03
 
 <!--toc:start-->
+
 - [Overview](#overview)
 - [Goals and Non-Goals](#goals-and-non-goals)
   - [Goals](#goals)
@@ -33,8 +33,8 @@ created: 2026-04-03
 This document defines the architecture and conventions for
 `github>donaldgifford/renovate-config`, a centralized repository of shareable
 Renovate presets. Consumer repos compose presets via `"extends"` in their
-`renovate.json` to get consistent dependency management across all
-repositories without duplicating configuration.
+`renovate.json` to get consistent dependency management across all repositories
+without duplicating configuration.
 
 ## Goals and Non-Goals
 
@@ -57,9 +57,8 @@ repositories without duplicating configuration.
 We maintain repositories across multiple ecosystems: Go, Rust, Node/TypeScript
 (bun and yarn), Terraform/OpenTofu (with Terragrunt and Boilerplate), Helm
 charts, Kustomize, Docker (with docker-bake), and GitHub Actions. Each repo
-previously managed its own Renovate config, leading to drift, inconsistency,
-and duplicated effort. This repo centralizes those configs into composable
-presets.
+previously managed its own Renovate config, leading to drift, inconsistency, and
+duplicated effort. This repo centralizes those configs into composable presets.
 
 ## Detailed Design
 
@@ -70,6 +69,7 @@ Presets are organized into three layers:
 ```
 Layer 1: Base        default.json5
 Layer 2: Ecosystem   go / rust / node / terraform / helm / kustomize / nix
+                     argocd / tflint / homebrew / typst
 Layer 3: Cross-cut   ci / docker / mise
 ```
 
@@ -78,12 +78,12 @@ Layer 3: Cross-cut   ci / docker / mise
 alerts, and the `dependencies` label.
 
 **Layer 2 (Ecosystem)** provides language/tool-specific configuration: manager
-options, post-update commands, grouping rules, and ecosystem-specific labels.
-A repo picks exactly one ecosystem preset for its primary language.
+options, post-update commands, grouping rules, and ecosystem-specific labels. A
+repo picks exactly one ecosystem preset for its primary language.
 
-**Layer 3 (Cross-cutting)** provides concerns that apply across ecosystems:
-CI labeling, Docker digest pinning, mise tool version tracking. Repos compose
-as many of these as needed.
+**Layer 3 (Cross-cutting)** provides concerns that apply across ecosystems: CI
+labeling, Docker digest pinning, mise tool version tracking. Repos compose as
+many of these as needed.
 
 ### Composition Model
 
@@ -108,31 +108,35 @@ Example for a Go repo with Docker and mise:
 
 ### Preset Inventory
 
-| Preset | Layer | Managers / Scope | Key Behavior |
-|--------|-------|-----------------|--------------|
-| `default.json5` | Base | All | `config:recommended`, weekly Mon schedule (America/Detroit), automerge non-major, vuln alerts, PR limits (5 concurrent / 2 hourly) |
-| `go.json5` | Ecosystem | `gomod` | `gomodTidy`, `gomodUpdateImportPaths`, group non-major, no automerge on toolchain bumps, `dont-release` for `.goreleaser.yml`/`.golangci.yml` |
-| `rust.json5` | Ecosystem | `cargo` | `rangeStrategy: update-lockfile`, group non-major, automerge lockfile maintenance |
-| `node.json5` | Ecosystem | `npm`, `nodenv`, `nvm` | `rangeStrategy: update-lockfile`, `yarnDedupeHighest`, group `@types/*` separately, no automerge on Node version bumps |
-| `terraform.json5` | Ecosystem | `terraform`, `terragrunt` | Pin provider digests, scoped lockfile maintenance, group providers and modules separately, regex manager for boilerplate variables |
-| `helm.json5` | Ecosystem | `helmv3` | Scoped to `charts/`, per-chart branch prefixes and commit messages, no automerge, appVersion tracking via Docker tags |
-| `kustomize.json5` | Ecosystem | `kustomize` | No automerge, group non-major image bumps, `dont-release` labels |
-| `nix.json5` | Ecosystem | `nix` | Group non-major flake inputs, no automerge on major input bumps |
-| `ci.json5` | Cross-cut | `github-actions`, `dockerfile`, file patterns | Pin Actions digests, group non-major Actions, no automerge on major Actions bumps, `dont-release` labels for Actions/Dockerfiles/config |
-| `docker.json5` | Cross-cut | `dockerfile`, custom regex | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` version variables |
-| `mise.json5` | Cross-cut | custom regex | Regex manager for pinned versions in `mise.toml`/`.mise.toml`, requires `# renovate:` annotations |
+| Preset            | Layer     | Managers / Scope                              | Key Behavior                                                                                                                        |
+| ----------------- | --------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `default.json5`   | Base      | All                                           | `config:recommended`, weekly Mon schedule (America/Detroit), `automerge: false`, vuln alerts, PR limits (5 concurrent / 2 hourly)   |
+| `go.json5`        | Ecosystem | `gomod`                                       | `gomodTidy`, `gomodUpdateImportPaths`, group non-major, `dont-release` for `.goreleaser.yml`/`.golangci.yml`                        |
+| `rust.json5`      | Ecosystem | `cargo`                                       | `rangeStrategy: update-lockfile`, group non-major, **automerge lockfile maintenance**                                               |
+| `node.json5`      | Ecosystem | `npm`, `nodenv`, `nvm`                        | `rangeStrategy: update-lockfile`, `yarnDedupeHighest`, **automerge `@types/*` non-major**                                           |
+| `terraform.json5` | Ecosystem | `terraform`, `terragrunt`                     | Pin provider digests, group providers and modules separately, **automerge lockfile maintenance**                                    |
+| `helm.json5`      | Ecosystem | `helmv3` + custom regex                       | Scoped to `charts/`, per-chart branch prefixes and commit messages, appVersion tracking via Docker tags                             |
+| `kustomize.json5` | Ecosystem | `kustomize`                                   | Group non-major image bumps, `dont-release` labels                                                                                  |
+| `nix.json5`       | Ecosystem | `nix`                                         | Group non-major flake inputs                                                                                                        |
+| `argocd.json5`    | Ecosystem | `argocd`                                      | ArgoCD Application/ApplicationSet manifests, group non-major, `dont-release` labels                                                 |
+| `tflint.json5`    | Ecosystem | `tflint-plugin`                               | Group non-major TFLint plugins (compose with `terraform`)                                                                           |
+| `homebrew.json5`  | Ecosystem | `homebrew`                                    | `Brewfile` formulae updates, `dont-release` labels                                                                                  |
+| `typst.json5`     | Ecosystem | custom regex                                  | Regex manager for `.typ` files (requires `// renovate:` annotations) — supports `#let` and `#import "@preview/..."` patterns        |
+| `ci.json5`        | Cross-cut | `github-actions`, `dockerfile`, file patterns | Pin Actions digests, group non-major, **automerge trusted publishers** (`actions/*`, `github/*`, `docker/*`), `dont-release` labels |
+| `docker.json5`    | Cross-cut | `dockerfile` + custom regex                   | Pin digests in Dockerfiles, regex manager for `docker-bake.hcl` (with grouping/labels)                                              |
+| `mise.json5`      | Cross-cut | custom regex                                  | Regex manager for `mise.toml`/`.mise.toml`, requires `# renovate:` annotations                                                      |
 
 ### Labeling Convention
 
 All presets follow a consistent labeling scheme tied to semantic release:
 
-| Label | Applied When |
-|-------|-------------|
-| `dependencies` | Every Renovate PR (set in `default.json5`) |
-| `patch` | Non-major dependency updates (minor, patch, digest, lockfile) |
-| `minor` | Major dependency updates or runtime version bumps |
+| Label          | Applied When                                                       |
+| -------------- | ------------------------------------------------------------------ |
+| `dependencies` | Every Renovate PR (set in `default.json5`)                         |
+| `patch`        | Non-major dependency updates (minor, patch, digest, lockfile)      |
+| `minor`        | Major dependency updates or runtime version bumps                  |
 | `dont-release` | Infrastructure-only changes (CI, Docker, config files, mise tools) |
-| `security` | Vulnerability alert PRs |
+| `security`     | Vulnerability alert PRs                                            |
 
 ### Grouping Convention
 
@@ -142,17 +146,37 @@ follows the pattern: `<ecosystem> <thing> (non-major)`.
 
 ### Automerge Convention
 
-- **Non-major dependency updates**: automerge (from `default.json5`)
-- **Major dependency updates**: never automerge (from `default.json5`)
-- **Runtime/toolchain version bumps** (Go, Node): never automerge
-- **Infrastructure manifests** (Helm, Kustomize): never automerge
-- **Lockfile maintenance** (Rust, Terraform): automerge
+**PR by default.** `default.json5` sets `automerge: false` globally. Renovate
+opens PRs and humans review and merge. Automerge is opt-in per preset for
+explicitly low-risk categories.
+
+**Opt-in automerge categories:**
+
+| Category                   | Where                           | Why safe                                                   |
+| -------------------------- | ------------------------------- | ---------------------------------------------------------- |
+| Lockfile maintenance       | `rust.json5`, `terraform.json5` | Refreshes locks, no version semantics changed              |
+| `@types/*` packages        | `node.json5`                    | No runtime impact                                          |
+| Trusted Actions publishers | `ci.json5`                      | Pinned to digest; only `actions/*`, `github/*`, `docker/*` |
+
+**Never automerge** (these stay PR-only):
+
+- Major bumps of any kind
+- Production runtime deps (npm, gomod, cargo)
+- Runtime/toolchain version bumps (Go, Node, bun)
+- Infrastructure manifests (helm, kustomize, argocd, terraform, nix)
+- Custom regex manager updates (extraction is fragile — humans verify)
+
+**Why this model:** PRs sit for review until merged. CI failures get
+investigated. Compromised packages between scheduled runs get caught. The narrow
+opt-in list is for things where the cost of automerge is genuinely zero: lock
+files don't change semantics, type packages have no runtime impact, and trusted
+Actions are pinned to immutable digests.
 
 ### Custom Manager Convention
 
-For tools without native Renovate managers (mise, docker-bake, boilerplate),
-we use regex custom managers with `# renovate:` comment annotations. The
-annotation tells Renovate the datasource and dependency name:
+For tools without native Renovate managers (mise, docker-bake, typst), we use
+regex custom managers with `# renovate:` (or `// renovate:`) comment
+annotations. The annotation tells Renovate the datasource and dependency name:
 
 ```toml
 # renovate: datasource=github-releases depName=google/yamlfmt
@@ -164,8 +188,8 @@ yamlfmt = "0.20.0"
 variable "GO_IMAGE_TAG" { default = "1.23.2-bookworm" }
 ```
 
-This pattern is consistent across all custom managers and is self-documenting
-in the consuming repo's source files.
+This pattern is consistent across all custom managers and is self-documenting in
+the consuming repo's source files.
 
 ## API / Interface Changes
 
@@ -177,8 +201,8 @@ github>donaldgifford/renovate-config           → default.json5
 github>donaldgifford/renovate-config:<name>     → <name>.json5
 ```
 
-Adding a new preset is backwards-compatible. Changing an existing preset
-affects all consumers on their next Renovate run.
+Adding a new preset is backwards-compatible. Changing an existing preset affects
+all consumers on their next Renovate run.
 
 ## Testing Strategy
 

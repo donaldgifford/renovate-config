@@ -2,6 +2,23 @@
   dockerfile: {
     pinDigests: true,
   },
+  packageRules: [
+    // --- Group non-major docker-bake variable updates (custom regex) ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/docker-bake.hcl"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "docker-bake variables (non-major)",
+      addLabels: ["patch", "dont-release"],
+    },
+    // --- Major docker-bake bumps get individual PRs ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/docker-bake.hcl"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
   customManagers: [
     // --- Track version variables in docker-bake.hcl ---
     // Annotate variables with a renovate comment:

@@ -1,0 +1,43 @@
+{
+  customManagers: [
+    // --- Track pinned versions in .typ files ---
+    // Renovate has no native typst manager. Annotate version references
+    // with a renovate comment. Two patterns are supported:
+    //
+    // 1) #let-style version variable:
+    //   // renovate: datasource=github-tags depName=typst/typst
+    //   #let typst-version = "0.13.0"
+    //
+    // 2) typst package import (version embedded in @preview/<name>:<version>):
+    //   // renovate: datasource=github-releases depName=typst-community/valkyrie
+    //   #import "@preview/valkyrie:0.2.1": *
+    {
+      customType: "regex",
+      managerFilePatterns: ["/.*\\.typ$/"],
+      matchStrings: [
+        // Pattern 1: `#let foo = "1.2.3"`
+        '//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]*=\\s*"v?(?<currentValue>[^"]+)"',
+        // Pattern 2: `#import "@preview/foo:1.2.3": ...`
+        '//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^"]*"@preview/[^:"]+:(?<currentValue>[^"]+)"',
+      ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+  ],
+  packageRules: [
+    // --- Group non-major typst package/version updates ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/*.typ"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "typst packages (non-major)",
+      addLabels: ["patch"],
+    },
+    // --- Major typst bumps get individual PRs ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/*.typ"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
+}

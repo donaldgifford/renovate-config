@@ -1,0 +1,17 @@
+{
+  packageRules: [
+    // --- Group non-major TFLint plugin updates ---
+    {
+      matchManagers: ["tflint-plugin"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "tflint plugins (non-major)",
+      addLabels: ["patch", "dont-release"],
+    },
+    // --- Major plugin bumps get individual PRs ---
+    {
+      matchManagers: ["tflint-plugin"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
+}

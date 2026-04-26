@@ -13,11 +13,23 @@
       groupName: "github actions (non-major)",
       addLabels: ["patch"],
     },
+    // --- Auto-merge non-major from trusted Actions publishers ---
+    // Override per-repo by adding `automerge: false` for these matchers,
+    // or extend `matchPackageNames` to add more trusted publishers.
+    {
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      matchPackageNames: [
+        "actions/**", // GitHub-published: checkout, setup-*, cache, upload-artifact
+        "github/**", // GitHub-published: codeql-action, etc.
+        "docker/**", // Docker-published: build-push-action, setup-buildx-action
+      ],
+      automerge: true,
+    },
     // --- Major Actions bumps get individual PRs ---
     {
       matchManagers: ["github-actions"],
       matchUpdateTypes: ["major"],
-      automerge: false,
       addLabels: ["minor"],
     },
     // --- Dockerfile updates: label as dont-release ---

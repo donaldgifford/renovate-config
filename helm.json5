@@ -1,10 +1,9 @@
 {
   packageRules: [
-    // --- Helm chart dependency updates scoped to charts/, no automerge ---
+    // --- Helm chart dependency updates scoped to charts/ ---
     {
       matchManagers: ["helmv3"],
       matchFileNames: ["charts/**"],
-      automerge: false,
       additionalBranchPrefix: "{{packageFileDir}}/",
       commitMessagePrefix: "chart({{packageFileDir}}):",
     },
@@ -13,7 +12,6 @@
       matchManagers: ["helmv3"],
       matchFileNames: ["charts/**"],
       matchUpdateTypes: ["minor", "patch", "digest"],
-      automerge: false,
       groupName: "{{packageFileDir}} chart deps (non-major)",
       addLabels: ["patch"],
     },
@@ -23,6 +21,15 @@
       matchFileNames: ["charts/**"],
       matchUpdateTypes: ["major"],
       addLabels: ["minor"],
+    },
+    // --- appVersion updates (custom regex manager): per-chart prefix + label ---
+    {
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["charts/**/Chart.yaml"],
+      additionalBranchPrefix: "{{packageFileDir}}/",
+      commitMessagePrefix: "chart({{packageFileDir}}):",
+      groupName: "{{packageFileDir}} appVersion",
+      addLabels: ["patch"],
     },
   ],
   customManagers: [
