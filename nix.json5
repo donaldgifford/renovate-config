@@ -11,7 +11,6 @@
     {
       matchManagers: ["nix"],
       matchUpdateTypes: ["major"],
-      automerge: false,
       addLabels: ["minor"],
     },
   ],

@@ -1,9 +1,8 @@
 {
   packageRules: [
-    // --- Kustomize image updates — no automerge ---
+    // --- Kustomize image updates: label as dont-release ---
     {
       matchManagers: ["kustomize"],
-      automerge: false,
       addLabels: ["dont-release"],
     },
     // --- Group non-major kustomize image bumps ---

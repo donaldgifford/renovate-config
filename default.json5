@@ -6,10 +6,11 @@
   timezone: "America/Detroit",
   prConcurrentLimit: 5,
   prHourlyLimit: 2,
-  automerge: true,
+  // PR by default — automerge is opt-in per ecosystem preset (see ci, rust,
+  // terraform, node) or per-repo override.
+  automerge: false,
   automergeType: "pr",
   platformAutomerge: true,
-  major: { automerge: false },
   vulnerabilityAlerts: {
     enabled: true,
     addLabels: ["security"],

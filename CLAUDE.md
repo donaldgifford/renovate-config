@@ -6,44 +6,46 @@ code in this repository.
 ## Project Overview
 
 Shareable [Renovate](https://docs.renovatebot.com/) preset configurations,
-consumed by other repos via `"extends"` in their `renovate.json`. The repo
-is hosted at `github>donaldgifford/renovate-config`.
+consumed by other repos via `"extends"` in their `renovate.json`. The repo is
+hosted at `github>donaldgifford/renovate-config`.
 
-See `docs/design/0001-shareable-renovate-preset-architecture.md` for the
-full architecture and design conventions.
+See `docs/design/0001-shareable-renovate-preset-architecture.md` for the full
+architecture and design conventions.
 
 ## Preset Layers
 
 Presets are JSON5 files in the repo root, organized in three layers:
 
-**Base:** `default.json5` — global defaults every repo needs.
+**Base:** `default.json5` — global defaults including `automerge: false`.
 
 **Ecosystem (pick one or more):**
 
-- `go.json5` — `gomodTidy`, `gomodUpdateImportPaths`, no automerge on
-  toolchain bumps, `dont-release` for `.goreleaser.yml`/`.golangci.yml`
-- `rust.json5` — `update-lockfile`, automerge lockfile maintenance
-- `node.json5` — `update-lockfile`, `yarnDedupeHighest`, groups `@types/*`,
-  no automerge on Node version bumps
-- `terraform.json5` — terragrunt, pin provider digests, scoped lockfile
-  maintenance, regex manager for boilerplate variables
-- `helm.json5` — scoped to `charts/`, per-chart branches, appVersion
-  tracking via Docker tags
-- `kustomize.json5` — no automerge, `dont-release` labels
-- `nix.json5` — groups non-major flake inputs, no automerge on major
-- `argocd.json5` — ArgoCD Applications, no automerge, `dont-release`
+- `go.json5` — `gomodTidy`, `gomodUpdateImportPaths`, `dont-release` for
+  `.goreleaser.yml`/`.golangci.yml`
+- `rust.json5` — `update-lockfile`, **automerges lockfile maintenance**
+- `node.json5` — `update-lockfile`, `yarnDedupeHighest`, **automerges
+  `@types/*`**
+- `terraform.json5` — terragrunt support, pin provider digests, **automerges
+  lockfile maintenance**
+- `helm.json5` — scoped to `charts/`, per-chart branches, appVersion tracking
+  via Docker tags (custom regex manager)
+- `kustomize.json5` — `dont-release` labels
+- `nix.json5` — groups non-major flake inputs
+- `argocd.json5` — ArgoCD Applications, `dont-release`
 - `tflint.json5` — TFLint plugin updates (compose with `terraform`)
-- `homebrew.json5` — `Brewfile` formulae, no automerge on major
+- `homebrew.json5` — `Brewfile` formulae, `dont-release`
 - `typst.json5` — regex manager for `.typ` files (needs `// renovate:`
-  annotations)
+  annotations); supports both `#let` and `#import "@preview/..."` patterns
 
 **Cross-cutting (compose as needed):**
 
-- `ci.json5` — Actions (pin digests, group non-major, no automerge on
-  major), `dont-release` labels for Actions/Dockerfiles/config files
-- `docker.json5` — pin Dockerfile digests, regex for `docker-bake.hcl`
+- `ci.json5` — Actions (pin digests, group non-major, **automerges trusted
+  publishers** `actions/*`, `github/*`, `docker/*`), `dont-release` labels for
+  Actions/Dockerfiles/config files
+- `docker.json5` — pin Dockerfile digests, regex manager for `docker-bake.hcl`
+  (with grouping/labels for those updates)
 - `mise.json5` — regex manager for `mise.toml` (needs `# renovate:`
-  annotations)
+  annotations); also covers asdf `.tool-versions`
 
 ## Validation & CI
 
@@ -71,12 +73,16 @@ Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):
 ## Conventions for Adding/Editing Presets
 
 - **JSON5** with `// --- Description ---` comment separators
-- Only `default.json5` sets `$schema` and `extends`
-- Every preset must include: group non-major (`addLabels: ["patch"]`),
-  major bumps (`addLabels: ["minor"]`), and automerge override if needed
+- Only `default.json5` sets `$schema`, `extends`, and global automerge
+- Every preset must include: group non-major (`addLabels: ["patch"]`) and major
+  bumps (`addLabels: ["minor"]`)
+- **PR by default** — only set `automerge: true` for explicitly low-risk
+  categories (lockfile maintenance, `@types/*`, trusted Actions publishers)
+- Don't add redundant `automerge: false` — base default already blocks it
 - Scope all rules with `matchManagers` to the relevant manager(s)
+- Custom managers (`custom.regex`) need their own packageRules scoped via
+  `matchFileNames` to label/group their updates
 - Group name pattern: `"<ecosystem> <thing> (non-major)"`
-- Custom managers use `# renovate:` annotation pattern
+- Custom manager annotations use `# renovate:` (or `// renovate:` for typst)
 - Labels: `dependencies` (base), `patch`, `minor`, `dont-release`, `security`
 - Schedule: weekly Monday before 6am, `America/Detroit`
-- Major bumps are never automerged

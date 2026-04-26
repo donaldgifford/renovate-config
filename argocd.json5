@@ -1,9 +1,8 @@
 {
   packageRules: [
-    // --- ArgoCD Application updates: no automerge ---
+    // --- ArgoCD Application updates: label as dont-release ---
     {
       matchManagers: ["argocd"],
-      automerge: false,
       addLabels: ["dont-release"],
     },
     // --- Group non-major ArgoCD updates ---

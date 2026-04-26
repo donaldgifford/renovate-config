@@ -16,7 +16,7 @@
       matchUpdateTypes: ["major"],
       addLabels: ["minor"],
     },
-    // --- Lockfile-only bumps are low risk, automerge ---
+    // --- Auto-merge lockfile maintenance (no version semantics changed) ---
     {
       matchManagers: ["cargo"],
       matchUpdateTypes: ["lockFileMaintenance"],

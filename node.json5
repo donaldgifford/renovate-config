@@ -17,19 +17,19 @@
       matchUpdateTypes: ["major"],
       addLabels: ["minor"],
     },
-    // --- Group @types/* non-major packages together ---
+    // --- Auto-merge @types/* non-major (no runtime impact) ---
     {
       matchManagers: ["npm"],
       matchPackageNames: ["@types/**"],
       matchUpdateTypes: ["minor", "patch", "digest"],
       groupName: "type definitions",
       addLabels: ["patch"],
+      automerge: true,
     },
-    // --- Don't automerge Node.js or bun runtime bumps ---
+    // --- Label Node.js / bun runtime bumps as minor ---
     {
       matchDepNames: ["node", "bun"],
       matchManagers: ["nodenv", "nvm", "npm"],
-      automerge: false,
       addLabels: ["minor"],
     },
   ],
