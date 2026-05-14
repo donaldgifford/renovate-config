@@ -13,16 +13,22 @@ created: 2026-04-03
 **Status:** Draft **Author:** Donald Gifford **Date:** 2026-04-03
 
 <!--toc:start-->
-
 - [Overview](#overview)
 - [Goals and Non-Goals](#goals-and-non-goals)
   - [Goals](#goals)
   - [Non-Goals](#non-goals)
 - [Background](#background)
 - [Detailed Design](#detailed-design)
+  - [Preset Architecture](#preset-architecture)
+  - [Composition Model](#composition-model)
+  - [Preset Inventory](#preset-inventory)
+  - [Labeling Convention](#labeling-convention)
+  - [Grouping Convention](#grouping-convention)
+  - [Automerge Convention](#automerge-convention)
+  - [Custom Manager Convention](#custom-manager-convention)
 - [API / Interface Changes](#api--interface-changes)
-- [Data Model](#data-model)
 - [Testing Strategy](#testing-strategy)
+- [Adding a New Preset](#adding-a-new-preset)
 - [Migration / Rollout Plan](#migration--rollout-plan)
 - [Open Questions](#open-questions)
 - [References](#references)
