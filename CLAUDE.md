@@ -63,6 +63,34 @@ npx --yes --package=renovate -- renovate-config-validator --strict <file>
 prettier --check "*.json5"
 ```
 
+## Testing Presets on Real Repos
+
+To test unmerged preset changes on a real consumer repo, append `#<branch>` to
+the extends reference. Renovate will fetch the preset from that branch on its
+next run:
+
+```json
+{
+  "extends": [
+    "github>donaldgifford/renovate-config#feat/my-branch",
+    "github>donaldgifford/renovate-config:go#feat/my-branch"
+  ]
+}
+```
+
+After merging the PR, switch the consumer back to the unsuffixed form.
+
+For a no-PR dry-run that shows what Renovate would do without creating anything:
+
+```bash
+npx --package=renovate -- renovate \
+  --platform=github \
+  --token=$(gh auth token) \
+  --dry-run=full \
+  --autodiscover=false \
+  donaldgifford/<target-repo>
+```
+
 ## Linting & Formatting
 
 Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):

@@ -28,9 +28,13 @@ docz create design "Your Design Title"
 - **Abandoned**: Design was not pursued
 
 <!-- BEGIN DOCZ AUTO-GENERATED -->
+
 ## All DESIGNs
 
-| ID | Title | Status | Date | Author | Link |
-|----|-------|--------|------|--------|------|
-| DESIGN-0001 | Shareable Renovate Preset Architecture | Draft | 2026-04-03 | Donald Gifford | [0001-shareable-renovate-preset-architecture.md](0001-shareable-renovate-preset-architecture.md) |
+| ID          | Title                                               | Status | Date       | Author         | Link                                                                                                                       |
+| ----------- | --------------------------------------------------- | ------ | ---------- | -------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| DESIGN-0001 | Shareable Renovate Preset Architecture              | Draft  | 2026-04-03 | Donald Gifford | [0001-shareable-renovate-preset-architecture.md](0001-shareable-renovate-preset-architecture.md)                           |
+| DESIGN-0002 | Local Skills for Maintaining Renovate Presets       | Draft  | 2026-05-13 | Donald Gifford | [0002-local-skills-for-maintaining-renovate-presets.md](0002-local-skills-for-maintaining-renovate-presets.md)             |
+| DESIGN-0003 | Portable Skills for Configuring Repos with Renovate | Draft  | 2026-05-13 | Donald Gifford | [0003-portable-skills-for-configuring-repos-with-renovate.md](0003-portable-skills-for-configuring-repos-with-renovate.md) |
+
 <!-- END DOCZ AUTO-GENERATED -->
