@@ -1,0 +1,15 @@
+{
+  "packageRules": [
+    {
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "nix flake inputs (non-major)",
+      "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    }
+  ]
+}

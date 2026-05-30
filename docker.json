@@ -1,0 +1,31 @@
+{
+  "dockerfile": {
+    "pinDigests": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/docker-bake.hcl"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker-bake variables (non-major)",
+      "addLabels": ["patch", "dont-release"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/docker-bake.hcl"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)docker-bake\\.hcl$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nvariable\\s+\"[^\"]+\"\\s*\\{\\s*default\\s*=\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ]
+}
