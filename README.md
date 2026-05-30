@@ -169,6 +169,7 @@ requires `# renovate:` annotations in your `mise.toml` — see the
 
 | Preset          | Description                                                                                                                                              |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default.json`  | `config:recommended`, weekly Mon schedule (America/Detroit), **PR by default (no automerge)**, vulnerability alerts, PR limits (5 concurrent / 2 hourly) |
 | `default.json5` | `config:recommended`, weekly Mon schedule (America/Detroit), **PR by default (no automerge)**, vulnerability alerts, PR limits (5 concurrent / 2 hourly) |
 
 ### Ecosystem
