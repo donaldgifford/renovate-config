@@ -1,0 +1,19 @@
+{
+  "packageRules": [
+    {
+      "matchManagers": ["argocd"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "argocd applications (non-major)",
+      "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    }
+  ]
+}

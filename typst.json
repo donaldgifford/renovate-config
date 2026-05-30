@@ -1,0 +1,28 @@
+{
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/.*\\.typ$/"],
+      "matchStrings": [
+        "//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]*=\\s*\"v?(?<currentValue>[^\"]+)\"",
+        "//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^\"]*\"@preview/[^:\"]+:(?<currentValue>[^\"]+)\""
+      ],
+      "extractVersionTemplate": "^v?(?<version>.*)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/*.typ"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "typst packages (non-major)",
+      "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/*.typ"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    }
+  ]
+}
