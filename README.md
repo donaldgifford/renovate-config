@@ -165,17 +165,25 @@ requires `# renovate:` annotations in your `mise.toml` — see the
 
 ### Hugo static-site repos
 
+`:hugo` only enables Renovate's `git-submodules` manager (off by default) for
+theme submodules. Compose `:go` **as well** if your site uses
+[Hugo modules](https://gohugo.io/hugo-modules/) (themes/components imported via
+`go.mod`) — Hugo modules are Go modules and tracked by `gomod`.
+
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>donaldgifford/renovate-config",
     "github>donaldgifford/renovate-config:hugo",
+    "github>donaldgifford/renovate-config:go",
     "github>donaldgifford/renovate-config:mise",
     "github>donaldgifford/renovate-config:ci"
   ]
 }
 ```
+
+If your site uses **only** git-submodule themes (no `go.mod`), drop `:go`.
 
 ### asdf `.tool-versions` repos
 
