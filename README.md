@@ -163,6 +163,33 @@ requires `# renovate:` annotations in your `mise.toml` — see the
 }
 ```
 
+### Hugo static-site repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:hugo",
+    "github>donaldgifford/renovate-config:mise",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
+### asdf `.tool-versions` repos
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:tool-versions",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
 ## Presets
 
 ### Base
@@ -174,19 +201,21 @@ requires `# renovate:` annotations in your `mise.toml` — see the
 
 ### Ecosystem
 
-| Preset            | Description                                                                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `go.json5`        | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, `dont-release` for Go config files                        |
-| `rust.json5`      | `update-lockfile` range strategy, groups non-major, **automerges lockfile maintenance**                            |
-| `node.json5`      | `update-lockfile`, `yarnDedupeHighest`, groups non-major, **automerges `@types/*`**                                |
-| `terraform.json5` | Terragrunt support, pin provider digests, groups providers/modules separately, **automerges lockfile maintenance** |
-| `helm.json5`      | Scoped to `charts/`, per-chart branch prefixes and commit messages, appVersion tracking via Docker tags            |
-| `kustomize.json5` | Groups non-major image bumps, `dont-release` labels                                                                |
-| `nix.json5`       | Groups non-major flake inputs                                                                                      |
-| `argocd.json5`    | ArgoCD Application/ApplicationSet manifests, groups non-major, `dont-release` labels                               |
-| `tflint.json5`    | TFLint plugin updates, groups non-major (compose with `terraform`)                                                 |
-| `homebrew.json5`  | `Brewfile` formulae updates, groups non-major, `dont-release` labels                                               |
-| `typst.json5`     | Regex manager for typst version pins in `.typ` files, requires `// renovate:` annotations                          |
+| Preset                | Description                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `go.json5`            | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, `dont-release` for Go config files                        |
+| `rust.json5`          | `update-lockfile` range strategy, groups non-major, **automerges lockfile maintenance**                            |
+| `node.json5`          | `update-lockfile`, `yarnDedupeHighest`, groups non-major, **automerges `@types/*`**                                |
+| `terraform.json5`     | Terragrunt support, pin provider digests, groups providers/modules separately, **automerges lockfile maintenance** |
+| `helm.json5`          | Scoped to `charts/`, per-chart branch prefixes and commit messages, appVersion tracking via Docker tags            |
+| `kustomize.json5`     | Groups non-major image bumps, `dont-release` labels                                                                |
+| `nix.json5`           | Groups non-major flake inputs                                                                                      |
+| `argocd.json5`        | ArgoCD Application/ApplicationSet manifests, groups non-major, `dont-release` labels                               |
+| `tflint.json5`        | TFLint plugin updates, groups non-major (compose with `terraform`)                                                 |
+| `homebrew.json5`      | `Brewfile` formulae updates, groups non-major, `dont-release` labels                                               |
+| `typst.json5`         | Regex manager for typst version pins in `.typ` files, requires `// renovate:` annotations                          |
+| `hugo.json5`          | Enables `git-submodules` for Hugo theme tracking, groups non-major, `dont-release` labels                          |
+| `tool-versions.json5` | Regex manager for asdf `.tool-versions` files, requires `# renovate:` annotations, `dont-release` labels           |
 
 ### Cross-cutting
 
