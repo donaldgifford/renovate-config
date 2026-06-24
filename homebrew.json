@@ -2,30 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": [
-        "homebrew"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["homebrew"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "homebrew formulae (non-major)",
-      "addLabels": [
-        "patch",
-        "dont-release"
-      ]
+      "addLabels": ["patch", "dont-release"]
     },
     {
-      "matchManagers": [
-        "homebrew"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchManagers": ["homebrew"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     }
   ]
 }

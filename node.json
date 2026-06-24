@@ -2,67 +2,32 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "npm": {
     "rangeStrategy": "update-lockfile",
-    "postUpdateOptions": [
-      "yarnDedupeHighest"
-    ]
+    "postUpdateOptions": ["yarnDedupeHighest"]
   },
   "packageRules": [
     {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "node packages (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     },
     {
-      "matchManagers": [
-        "npm"
-      ],
-      "matchPackageNames": [
-        "@types/**"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@types/**"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "type definitions",
-      "addLabels": [
-        "patch"
-      ],
+      "addLabels": ["patch"],
       "automerge": true
     },
     {
-      "matchDepNames": [
-        "node",
-        "bun"
-      ],
-      "matchManagers": [
-        "nodenv",
-        "nvm",
-        "npm"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchDepNames": ["node", "bun"],
+      "matchManagers": ["nodenv", "nvm", "npm"],
+      "addLabels": ["minor"]
     }
   ]
 }

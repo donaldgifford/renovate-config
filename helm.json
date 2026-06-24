@@ -2,67 +2,37 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
+      "matchManagers": ["helmv3"],
+      "matchFileNames": ["charts/**"],
       "additionalBranchPrefix": "{{packageFileDir}}/",
       "commitMessagePrefix": "chart({{packageFileDir}}):"
     },
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["helmv3"],
+      "matchFileNames": ["charts/**"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "{{packageFileDir}} chart deps (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchManagers": ["helmv3"],
+      "matchFileNames": ["charts/**"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "charts/**/Chart.yaml"
-      ],
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["charts/**/Chart.yaml"],
       "additionalBranchPrefix": "{{packageFileDir}}/",
       "commitMessagePrefix": "chart({{packageFileDir}}):",
       "groupName": "{{packageFileDir}} appVersion",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/charts/.+/Chart\\.yaml$/"
-      ],
+      "managerFilePatterns": ["/charts/.+/Chart\\.yaml$/"],
       "matchStrings": [
         "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nappVersion:\\s*[\"']?(?<currentValue>[^\"'\\s]+)"
       ],

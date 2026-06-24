@@ -5,64 +5,29 @@
   },
   "packageRules": [
     {
-      "matchManagers": [
-        "terraform",
-        "terragrunt"
-      ],
-      "matchDepTypes": [
-        "provider"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["terraform", "terragrunt"],
+      "matchDepTypes": ["provider"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "terraform providers (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": [
-        "terraform",
-        "terragrunt"
-      ],
-      "matchDepTypes": [
-        "module"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["terraform", "terragrunt"],
+      "matchDepTypes": ["module"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "terraform modules (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": [
-        "terraform",
-        "terragrunt"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchManagers": ["terraform", "terragrunt"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     },
     {
-      "matchManagers": [
-        "terraform"
-      ],
-      "matchUpdateTypes": [
-        "lockFileMaintenance"
-      ],
+      "matchManagers": ["terraform"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true,
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     }
   ]
 }

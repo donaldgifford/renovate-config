@@ -1,50 +1,28 @@
 {
-  "customManagers": [
+  customManagers: [
     {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/(^|/)\\.tool-versions$/"
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)\\.tool-versions$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s+datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?\\n\\w+\\s+(?<currentValue>\\S+)",
       ],
-      "matchStrings": [
-        "#\\s*renovate:\\s+datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?\\n\\w+\\s+(?<currentValue>\\S+)"
-      ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "**/.tool-versions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
-      "groupName": "asdf tools (non-major)",
-      "addLabels": [
-        "patch",
-        "dont-release"
-      ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/.tool-versions"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "asdf tools (non-major)",
+      addLabels: ["patch", "dont-release"],
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "**/.tool-versions"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor",
-        "dont-release"
-      ]
-    }
-  ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/.tool-versions"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor", "dont-release"],
+    },
+  ],
 }

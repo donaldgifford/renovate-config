@@ -1,72 +1,42 @@
 {
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
-      "additionalBranchPrefix": "{{packageFileDir}}/",
-      "commitMessagePrefix": "chart({{packageFileDir}}):"
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      additionalBranchPrefix: "{{packageFileDir}}/",
+      commitMessagePrefix: "chart({{packageFileDir}}):",
     },
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
-      "groupName": "{{packageFileDir}} chart deps (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "{{packageFileDir}} chart deps (non-major)",
+      addLabels: ["patch"],
     },
     {
-      "matchManagers": [
-        "helmv3"
-      ],
-      "matchFileNames": [
-        "charts/**"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      matchManagers: ["helmv3"],
+      matchFileNames: ["charts/**"],
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "charts/**/Chart.yaml"
-      ],
-      "additionalBranchPrefix": "{{packageFileDir}}/",
-      "commitMessagePrefix": "chart({{packageFileDir}}):",
-      "groupName": "{{packageFileDir}} appVersion",
-      "addLabels": [
-        "patch"
-      ]
-    }
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["charts/**/Chart.yaml"],
+      additionalBranchPrefix: "{{packageFileDir}}/",
+      commitMessagePrefix: "chart({{packageFileDir}}):",
+      groupName: "{{packageFileDir}} appVersion",
+      addLabels: ["patch"],
+    },
   ],
-  "customManagers": [
+  customManagers: [
     {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/charts/.+/Chart\\.yaml$/"
+      customType: "regex",
+      managerFilePatterns: ["/charts/.+/Chart\\.yaml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nappVersion:\\s*[\"']?(?<currentValue>[^\"'\\s]+)",
       ],
-      "matchStrings": [
-        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nappVersion:\\s*[\"']?(?<currentValue>[^\"'\\s]+)"
-      ],
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "semver"
-    }
-  ]
+      datasourceTemplate: "docker",
+      versioningTemplate: "semver",
+    },
+  ],
 }

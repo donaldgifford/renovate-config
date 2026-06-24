@@ -2,29 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": [
-        "nix"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "nix flake inputs (non-major)",
-      "addLabels": [
-        "patch"
-      ]
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": [
-        "nix"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     }
   ]
 }

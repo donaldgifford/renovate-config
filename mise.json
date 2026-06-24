@@ -17,42 +17,27 @@
   ],
   "packageRules": [
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
+      "matchManagers": ["custom.regex"],
       "matchFileNames": [
         "mise.toml",
         ".mise.toml",
         "**/mise/conf.d/*.toml",
         "**/config/mise/conf.d/*.toml"
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "mise tools (non-major)",
-      "addLabels": [
-        "patch",
-        "dont-release"
-      ]
+      "addLabels": ["patch", "dont-release"]
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
+      "matchManagers": ["custom.regex"],
       "matchFileNames": [
         "mise.toml",
         ".mise.toml",
         "**/mise/conf.d/*.toml",
         "**/config/mise/conf.d/*.toml"
       ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
     }
   ]
 }

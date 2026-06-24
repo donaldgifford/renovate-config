@@ -1,58 +1,43 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "customManagers": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  customManagers: [
     {
-      "customType": "regex",
-      "managerFilePatterns": [
+      customType: "regex",
+      managerFilePatterns: [
         "/(^|/)mise\\.toml$/",
         "/(^|/)\\.mise\\.toml$/",
         "/(^|/)\\.?mise/conf\\.d/.+\\.toml$/",
-        "/(^|/)\\.?config/mise/conf\\.d/.+\\.toml$/"
+        "/(^|/)\\.?config/mise/conf\\.d/.+\\.toml$/",
       ],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(?:\\s+extractVersion=(?<extractVersion>[^\\s]+))?\\n[^=]+=\\s*\"(?<currentValue>[^\"]+)\""
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)(?:\\s+extractVersion=(?<extractVersion>[^\\s]+))?\\n[^=]+=\\s*"(?<currentValue>[^"]+)"',
       ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
+      matchManagers: ["custom.regex"],
+      matchFileNames: [
         "mise.toml",
         ".mise.toml",
         "**/mise/conf.d/*.toml",
-        "**/config/mise/conf.d/*.toml"
+        "**/config/mise/conf.d/*.toml",
       ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
-      "groupName": "mise tools (non-major)",
-      "addLabels": [
-        "patch",
-        "dont-release"
-      ]
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      groupName: "mise tools (non-major)",
+      addLabels: ["patch", "dont-release"],
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
+      matchManagers: ["custom.regex"],
+      matchFileNames: [
         "mise.toml",
         ".mise.toml",
         "**/mise/conf.d/*.toml",
-        "**/config/mise/conf.d/*.toml"
+        "**/config/mise/conf.d/*.toml",
       ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "addLabels": [
-        "minor"
-      ]
-    }
-  ]
+      matchUpdateTypes: ["major"],
+      addLabels: ["minor"],
+    },
+  ],
 }
