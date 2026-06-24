@@ -1,22 +1,37 @@
 {
-  packageRules: [
-    // --- ArgoCD Application updates: label as dont-release ---
+  "packageRules": [
     {
-      matchManagers: ["argocd"],
-      addLabels: ["dont-release"],
+      "matchManagers": [
+        "argocd"
+      ],
+      "addLabels": [
+        "dont-release"
+      ]
     },
-    // --- Group non-major ArgoCD updates ---
     {
-      matchManagers: ["argocd"],
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      groupName: "argocd applications (non-major)",
-      addLabels: ["patch"],
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "argocd applications (non-major)",
+      "addLabels": [
+        "patch"
+      ]
     },
-    // --- Major bumps get individual PRs ---
     {
-      matchManagers: ["argocd"],
-      matchUpdateTypes: ["major"],
-      addLabels: ["minor"],
-    },
-  ],
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
+    }
+  ]
 }

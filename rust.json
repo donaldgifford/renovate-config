@@ -1,24 +1,45 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "cargo": {
     "rangeStrategy": "update-lockfile"
   },
   "packageRules": [
     {
-      "matchManagers": ["cargo"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "rust crates (non-major)",
-      "addLabels": ["patch"]
+      "addLabels": [
+        "patch"
+      ]
     },
     {
-      "matchManagers": ["cargo"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     },
     {
-      "matchManagers": ["cargo"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
+      "matchManagers": [
+        "cargo"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
       "automerge": true,
-      "addLabels": ["patch"]
+      "addLabels": [
+        "patch"
+      ]
     }
   ]
 }

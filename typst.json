@@ -1,8 +1,11 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/.*\\.typ$/"],
+      "managerFilePatterns": [
+        "/.*\\.typ$/"
+      ],
       "matchStrings": [
         "//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]*=\\s*\"v?(?<currentValue>[^\"]+)\"",
         "//\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^\"]*\"@preview/[^:\"]+:(?<currentValue>[^\"]+)\""
@@ -12,17 +15,35 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["**/*.typ"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchFileNames": [
+        "**/*.typ"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "typst packages (non-major)",
-      "addLabels": ["patch"]
+      "addLabels": [
+        "patch"
+      ]
     },
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["**/*.typ"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchFileNames": [
+        "**/*.typ"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     }
   ]
 }

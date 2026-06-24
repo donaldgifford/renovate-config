@@ -1,8 +1,11 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/(^|/)\\.tool-versions$/"],
+      "managerFilePatterns": [
+        "/(^|/)\\.tool-versions$/"
+      ],
       "matchStrings": [
         "#\\s*renovate:\\s+datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?\\n\\w+\\s+(?<currentValue>\\S+)"
       ],
@@ -12,17 +15,37 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["**/.tool-versions"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchFileNames": [
+        "**/.tool-versions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "asdf tools (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": [
+        "patch",
+        "dont-release"
+      ]
     },
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["**/.tool-versions"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchFileNames": [
+        "**/.tool-versions"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor",
+        "dont-release"
+      ]
     }
   ]
 }

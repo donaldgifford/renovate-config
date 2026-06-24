@@ -1,19 +1,38 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["argocd"],
-      "addLabels": ["dont-release"]
+      "matchManagers": [
+        "argocd"
+      ],
+      "addLabels": [
+        "dont-release"
+      ]
     },
     {
-      "matchManagers": ["argocd"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "argocd applications (non-major)",
-      "addLabels": ["patch"]
+      "addLabels": [
+        "patch"
+      ]
     },
     {
-      "matchManagers": ["argocd"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchManagers": [
+        "argocd"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     }
   ]
 }

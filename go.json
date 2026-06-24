@@ -1,27 +1,56 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "gomod": {
-    "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+    "postUpdateOptions": [
+      "gomodTidy",
+      "gomodUpdateImportPaths"
+    ]
   },
   "packageRules": [
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "go modules (non-major)",
-      "addLabels": ["patch"]
+      "addLabels": [
+        "patch"
+      ]
     },
     {
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     },
     {
-      "matchDepNames": ["go"],
-      "matchManagers": ["gomod"],
-      "addLabels": ["minor"]
+      "matchDepNames": [
+        "go"
+      ],
+      "matchManagers": [
+        "gomod"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     },
     {
-      "matchFileNames": [".goreleaser.yml", ".golangci.yml"],
-      "addLabels": ["dont-release"]
+      "matchFileNames": [
+        ".goreleaser.yml",
+        ".golangci.yml"
+      ],
+      "addLabels": [
+        "dont-release"
+      ]
     }
   ]
 }

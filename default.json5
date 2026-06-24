@@ -1,18 +1,24 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:recommended"],
-  labels: ["dependencies"],
-  schedule: ["before 6am on monday"],
-  timezone: "America/Detroit",
-  prConcurrentLimit: 5,
-  prHourlyLimit: 2,
-  // PR by default — automerge is opt-in per ecosystem preset (see ci, rust,
-  // terraform, node) or per-repo override.
-  automerge: false,
-  automergeType: "pr",
-  platformAutomerge: true,
-  vulnerabilityAlerts: {
-    enabled: true,
-    addLabels: ["security"],
-  },
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "timezone": "America/Detroit",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "automerge": false,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "addLabels": [
+      "security"
+    ]
+  }
 }

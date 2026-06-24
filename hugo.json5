@@ -1,24 +1,34 @@
 {
-  // --- Enable git-submodules for Hugo theme tracking ---
-  // Off by default in Renovate. Hugo sites commonly install themes as git
-  // submodules under themes/. Hugo modules (Go-flavored themes in go.mod) and
-  // npm-based asset pipelines are covered by composing :go and :node.
   "git-submodules": {
-    enabled: true,
+    "enabled": true
   },
-  packageRules: [
-    // --- Group non-major theme submodule updates ---
+  "packageRules": [
     {
-      matchManagers: ["git-submodules"],
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      groupName: "hugo themes (non-major)",
-      addLabels: ["patch", "dont-release"],
+      "matchManagers": [
+        "git-submodules"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "hugo themes (non-major)",
+      "addLabels": [
+        "patch",
+        "dont-release"
+      ]
     },
-    // --- Major theme bumps get individual PRs ---
     {
-      matchManagers: ["git-submodules"],
-      matchUpdateTypes: ["major"],
-      addLabels: ["minor", "dont-release"],
-    },
-  ],
+      "matchManagers": [
+        "git-submodules"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor",
+        "dont-release"
+      ]
+    }
+  ]
 }

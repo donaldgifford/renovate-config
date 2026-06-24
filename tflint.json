@@ -1,15 +1,31 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["tflint-plugin"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchManagers": [
+        "tflint-plugin"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
       "groupName": "tflint plugins (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": [
+        "patch",
+        "dont-release"
+      ]
     },
     {
-      "matchManagers": ["tflint-plugin"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchManagers": [
+        "tflint-plugin"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "addLabels": [
+        "minor"
+      ]
     }
   ]
 }
