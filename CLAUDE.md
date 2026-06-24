@@ -36,6 +36,10 @@ Presets are JSON5 files in the repo root, organized in three layers:
 - `homebrew.json5` — `Brewfile` formulae, `dont-release`
 - `typst.json5` — regex manager for `.typ` files (needs `// renovate:`
   annotations); supports both `#let` and `#import "@preview/..."` patterns
+- `hugo.json5` — enables `git-submodules` for Hugo theme tracking;
+  `dont-release` labels
+- `tool-versions.json5` — regex manager for asdf `.tool-versions` (needs
+  `# renovate:` annotations); `dont-release` labels
 
 **Cross-cutting (compose as needed):**
 
@@ -44,8 +48,9 @@ Presets are JSON5 files in the repo root, organized in three layers:
   Actions/Dockerfiles/config files
 - `docker.json5` — pin Dockerfile digests, regex manager for `docker-bake.hcl`
   (with grouping/labels for those updates)
-- `mise.json5` — regex manager for `mise.toml` (needs `# renovate:`
-  annotations); also covers asdf `.tool-versions`
+- `mise.json5` — regex manager for `mise.toml` / `.mise.toml` only (needs
+  `# renovate:` annotations). `.tool-versions` is **not** covered here — compose
+  `tool-versions.json5` for asdf-style tool files.
 
 ## Validation & CI
 
