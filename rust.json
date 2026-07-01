@@ -20,6 +20,10 @@
       "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true,
       "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["rust-toolchain"],
+      "addLabels": ["minor"]
     }
   ]
 }

@@ -1,17 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "mise": {
-    "enabled": true
-  },
   "packageRules": [
     {
-      "matchManagers": ["mise"],
+      "matchManagers": ["renovate-config"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "mise tools (non-major)",
+      "groupName": "renovate presets (non-major)",
       "addLabels": ["patch", "dont-release"]
     },
     {
-      "matchManagers": ["mise"],
+      "matchManagers": ["renovate-config"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor", "dont-release"]
     }

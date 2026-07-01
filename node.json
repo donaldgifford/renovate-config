@@ -4,20 +4,23 @@
     "rangeStrategy": "update-lockfile",
     "postUpdateOptions": ["yarnDedupeHighest"]
   },
+  "bun": {
+    "rangeStrategy": "update-lockfile"
+  },
   "packageRules": [
     {
-      "matchManagers": ["npm"],
+      "matchManagers": ["npm", "bun"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "node packages (non-major)",
       "addLabels": ["patch"]
     },
     {
-      "matchManagers": ["npm"],
+      "matchManagers": ["npm", "bun"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor"]
     },
     {
-      "matchManagers": ["npm"],
+      "matchManagers": ["npm", "bun"],
       "matchPackageNames": ["@types/**"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "type definitions",
@@ -26,7 +29,7 @@
     },
     {
       "matchDepNames": ["node", "bun"],
-      "matchManagers": ["nodenv", "nvm", "npm"],
+      "matchManagers": ["nodenv", "nvm", "npm", "bun"],
       "addLabels": ["minor"]
     }
   ]

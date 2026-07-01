@@ -3,7 +3,21 @@
   "dockerfile": {
     "pinDigests": true
   },
+  "docker-compose": {
+    "pinDigests": true
+  },
   "packageRules": [
+    {
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker images (non-major)",
+      "addLabels": ["patch", "dont-release"]
+    },
+    {
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor", "dont-release"]
+    },
     {
       "matchManagers": ["custom.regex"],
       "matchFileNames": ["**/docker-bake.hcl"],
@@ -15,7 +29,7 @@
       "matchManagers": ["custom.regex"],
       "matchFileNames": ["**/docker-bake.hcl"],
       "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "addLabels": ["minor", "dont-release"]
     }
   ],
   "customManagers": [
