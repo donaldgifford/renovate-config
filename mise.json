@@ -1,27 +1,19 @@
 {
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["/(^|/)mise\\.toml$/", "/(^|/)\\.mise\\.toml$/"],
-      "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>[^\\s]+)\\s+depName=(?<depName>[^\\s]+)\\n[^=]+=\\s*\"(?<currentValue>[^\"]+)\""
-      ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
-  ],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "mise": {
+    "enabled": true
+  },
   "packageRules": [
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["mise.toml", ".mise.toml"],
+      "matchManagers": ["mise"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "mise tools (non-major)",
       "addLabels": ["patch", "dont-release"]
     },
     {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["mise.toml", ".mise.toml"],
+      "matchManagers": ["mise"],
       "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "addLabels": ["minor", "dont-release"]
     }
   ]
 }

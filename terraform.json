@@ -1,24 +1,25 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "terraform": {
     "pinDigests": true
   },
   "packageRules": [
     {
-      "matchManagers": ["terraform", "terragrunt"],
+      "matchManagers": ["terraform"],
       "matchDepTypes": ["provider"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "terraform providers (non-major)",
       "addLabels": ["patch"]
     },
     {
-      "matchManagers": ["terraform", "terragrunt"],
+      "matchManagers": ["terraform"],
       "matchDepTypes": ["module"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "terraform modules (non-major)",
       "addLabels": ["patch"]
     },
     {
-      "matchManagers": ["terraform", "terragrunt"],
+      "matchManagers": ["terraform"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor"]
     },

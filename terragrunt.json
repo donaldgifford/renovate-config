@@ -2,13 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["tflint-plugin"],
+      "matchManagers": ["terragrunt"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "tflint plugins (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "groupName": "terragrunt modules (non-major)",
+      "addLabels": ["patch"]
     },
     {
-      "matchManagers": ["tflint-plugin"],
+      "matchManagers": ["terragrunt"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor"]
     }

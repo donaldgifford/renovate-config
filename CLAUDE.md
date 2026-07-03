@@ -14,58 +14,71 @@ architecture and design conventions.
 
 ## Preset Layers
 
-Presets are JSON5 files in the repo root, organized in three layers:
+Presets are `.json` files in the repo root (Renovate resolves the bare shorthand
+to `default.json` only — `.json5` is not used here). Organized in three layers.
 
-**Base:** `default.json5` — global defaults including `automerge: false`.
+**Base:** `default.json` — global defaults including `automerge: false`.
 
 **Ecosystem (pick one or more):**
 
-- `go.json5` — `gomodTidy`, `gomodUpdateImportPaths`, `dont-release` for
+- `go.json` — `gomodTidy`, `gomodUpdateImportPaths`, `dont-release` for
   `.goreleaser.yml`/`.golangci.yml`
-- `rust.json5` — `update-lockfile`, **automerges lockfile maintenance**
-- `node.json5` — `update-lockfile`, `yarnDedupeHighest`, **automerges
-  `@types/*`**
-- `terraform.json5` — terragrunt support, pin provider digests, **automerges
-  lockfile maintenance**
-- `helm.json5` — scoped to `charts/`, per-chart branches, appVersion tracking
-  via Docker tags (custom regex manager)
-- `kustomize.json5` — `dont-release` labels
-- `nix.json5` — groups non-major flake inputs
-- `argocd.json5` — ArgoCD Applications, `dont-release`
-- `tflint.json5` — TFLint plugin updates (compose with `terraform`)
-- `homebrew.json5` — `Brewfile` formulae, `dont-release`
-- `typst.json5` — regex manager for `.typ` files (needs `// renovate:`
+- `rust.json` — `cargo` (with `update-lockfile`) + `rust-toolchain` managers,
+  **automerges lockfile maintenance**
+- `node.json` — `npm` + `bun` managers (both `update-lockfile`),
+  `yarnDedupeHighest`, **automerges `@types/*`**
+- `terraform.json` — Terraform modules repos. Pin provider digests, group
+  providers/modules separately, **automerges lockfile maintenance**. Does
+  **not** match `terragrunt`.
+- `terragrunt.json` — Terragrunt deployment repos (Boilerplate-generated,
+  Atlantis-applied). Groups non-major module bumps. No `dont-release` label —
+  deployments still get released via Atlantis.
+- `helm.json` — scoped to `charts/`, per-chart branches, appVersion tracking via
+  Docker tags (custom regex manager)
+- `kustomize.json` — `dont-release` labels
+- `kubernetes.json` — raw K8s manifest `image:` refs under `k8s/`, `manifests/`,
+  `deploy/`, `deployments/`. `dont-release` labels.
+- `nix.json` — groups non-major flake inputs
+- `argocd.json` — ArgoCD Applications, `dont-release`
+- `tflint.json` — TFLint plugin updates (compose with `terraform`)
+- `homebrew.json` — `Brewfile` formulae, `dont-release`
+- `typst.json` — regex manager for `.typ` files (needs `// renovate:`
   annotations); supports both `#let` and `#import "@preview/..."` patterns
-- `hugo.json5` — enables `git-submodules` for Hugo theme tracking;
-  `dont-release` labels
-- `tool-versions.json5` — regex manager for asdf `.tool-versions` (needs
-  `# renovate:` annotations); `dont-release` labels
+- `hugo.json` — enables `git-submodules` for Hugo theme tracking; `dont-release`
+  labels
+- `tool-versions.json` — regex manager for asdf `.tool-versions` (only needed
+  for pure-asdf repos; `:mise` covers `.tool-versions` when `mise.toml` also
+  present)
 
 **Cross-cutting (compose as needed):**
 
-- `ci.json5` — Actions (pin digests, group non-major, **automerges trusted
-  publishers** `actions/*`, `github/*`, `docker/*`), `dont-release` labels for
+- `ci.json` — GitHub Actions (pin digests, group non-major, **automerges trusted
+  publishers** `actions/*`, `github/*`, `docker/*`), forgejo-actions support
+  with `forgejo.fartlab.dev` registry, `dont-release` labels for
   Actions/Dockerfiles/config files
-- `docker.json5` — pin Dockerfile digests, regex manager for `docker-bake.hcl`
-  (with grouping/labels for those updates)
-- `mise.json5` — regex manager for `mise.toml` / `.mise.toml` only (needs
-  `# renovate:` annotations). `.tool-versions` is **not** covered here — compose
-  `tool-versions.json5` for asdf-style tool files.
+- `docker.json` — native `dockerfile` + `docker-compose` managers (pin digests,
+  group non-major), regex manager for `docker-bake.hcl`
+- `mise.json` — native `mise` manager. Auto-detects tools in `mise.toml`,
+  `.mise.toml`, and `.tool-versions`. Annotations only needed for unknown tools.
+- `renovate-config.json` — native `renovate-config` manager. Bumps pinned
+  `extends` refs in downstream repos.
+- `devcontainer.json` — native `devcontainer` manager. Updates features and base
+  image in `.devcontainer/devcontainer.json`.
 
 ## Validation & CI
 
 CI runs on every PR via `.github/workflows/validate.yml`:
 
 1. `renovate-config-validator --strict <file>` — validates syntax, semantics,
-   deprecated options against every `.json5` file
-2. `prettier --check "*.json5"` — enforces consistent formatting
+   deprecated options against every `.json` file
+2. `prettier --check "*.json"` — enforces consistent formatting
 
 To validate locally (the validator is bundled inside the `renovate` package, so
 install via `--package=renovate`):
 
 ```bash
 npx --yes --package=renovate -- renovate-config-validator --strict <file>
-prettier --check "*.json5"
+prettier --check "*.json"
 ```
 
 ## Testing Presets on Real Repos
@@ -102,12 +115,14 @@ Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):
 
 - **Markdown:** `markdownlint-cli2`, `prettier` (proseWrap: always, 80 cols)
 - **YAML:** `yamlfmt`, `yamllint`
-- **JSON5:** `prettier`, `renovate-config-validator`
+- **JSON:** `prettier`, `renovate-config-validator`
 
 ## Conventions for Adding/Editing Presets
 
-- **JSON5** with `// --- Description ---` comment separators
-- Only `default.json5` sets `$schema`, `extends`, and global automerge
+- **JSON** files only. `.json5` is not resolved by Renovate for the bare preset
+  shorthand — stick with `.json`.
+- Only `default.json` sets `extends` and global automerge. Every preset sets
+  `$schema` (harmless, helps editor completion).
 - Every preset must include: group non-major (`addLabels: ["patch"]`) and major
   bumps (`addLabels: ["minor"]`)
 - **PR by default** — only set `automerge: true` for explicitly low-risk
@@ -117,7 +132,7 @@ Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):
 - Group name pattern: `"<ecosystem> <thing> (non-major)"`
 - Labels: `dependencies` (base), `patch`, `minor`, `dont-release`, `security`
 - Schedule: weekly Monday before 6am, `America/Detroit`
-- Run `prettier --write "*.json5"` after editing — CI fails otherwise
+- Run `prettier --write "*.json"` after editing — CI fails otherwise
 
 ## Custom Managers
 
@@ -126,27 +141,10 @@ Custom regex managers need a paired `packageRules` entry that matches
 unlabeled and ungrouped. Annotation comment is `# renovate:` (or `// renovate:`
 for typst).
 
-```json5
-{
-  customManagers: [
-    {
-      customType: "regex",
-      managerFilePatterns: ["/(^|/)mise\\.toml$/"], // regex, not glob
-      matchStrings: ["..."],
-      // ...
-    },
-  ],
-  packageRules: [
-    {
-      matchManagers: ["custom.regex"],
-      matchFileNames: ["mise.toml", ".mise.toml"], // scope to this preset's files
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      groupName: "mise tools (non-major)",
-      addLabels: ["patch"],
-    },
-  ],
-}
-```
+Prefer **native managers** where available (mise, dockerfile, docker-compose,
+kubernetes, devcontainer, renovate-config, rust-toolchain, bun) over custom
+regex. Custom regex is a last resort for tools without native support (typst,
+`docker-bake.hcl`).
 
 ## Common Pitfalls
 
@@ -157,7 +155,13 @@ for typst).
 - `managerFilePatterns` uses regex syntax wrapped in `/.../`, not glob
 - `lockFileMaintenance` is configured per packageRule via
   `matchUpdateTypes: ["lockFileMaintenance"]`, not as a global key
-- `terragrunt` is a separate manager from `terraform` — match both when rules
-  apply to either
+- `terragrunt` is a separate manager from `terraform` — use `:terraform` for
+  modules repos, `:terragrunt` for deployment repos, both if the repo mixes raw
+  `.tf` files with `terragrunt.hcl`
+- `registryUrls` cannot be combined with `matchUpdateTypes` in the same
+  packageRule — split into two rules (one sets the URL, one does the
+  grouping/labeling)
+- The `renovate-config` manager is named `renovate-config`, not
+  `renovate-config-presets` (the latter is auto-migrated but flagged)
 - A custom regex manager whose `matchStrings` doesn't match the file format
   (e.g. HCL syntax against a YAML file) silently catches nothing

@@ -2,15 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchManagers": ["tflint-plugin"],
+      "matchManagers": ["devcontainer"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "tflint plugins (non-major)",
+      "groupName": "devcontainer (non-major)",
       "addLabels": ["patch", "dont-release"]
     },
     {
-      "matchManagers": ["tflint-plugin"],
+      "matchManagers": ["devcontainer"],
       "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "addLabels": ["minor", "dont-release"]
     }
   ]
 }
