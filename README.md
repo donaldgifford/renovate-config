@@ -54,6 +54,23 @@ Pick a base + ecosystem + cross-cutting presets for your repo.
 }
 ```
 
+### Python repos
+
+Covers `pip_requirements` (requirements\*.txt), `pip_setup`, `pipenv`, `poetry`,
+`pep621` (uv / hatch / PDM), `pip-compile`, and `pyenv` (`.python-version`).
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>donaldgifford/renovate-config",
+    "github>donaldgifford/renovate-config:python",
+    "github>donaldgifford/renovate-config:mise",
+    "github>donaldgifford/renovate-config:ci"
+  ]
+}
+```
+
 ### Terraform modules repos
 
 Reusable Terraform modules that publish/tag releases. Compose `:tflint` if the
@@ -283,6 +300,7 @@ ecosystem preset.
 | `go.json`            | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, `dont-release` for Go config files                                        |
 | `rust.json`          | `cargo` + `rust-toolchain` managers, `update-lockfile` range strategy, groups non-major, **automerges lockfile maintenance**       |
 | `node.json`          | `npm` + `bun` managers, `update-lockfile`, `yarnDedupeHighest`, groups non-major, **automerges `@types/*`**                        |
+| `python.json`        | `pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `pep621` (uv/hatch/PDM), `pip-compile`, `pyenv`. Groups non-major.            |
 | `terraform.json`     | Terraform modules only. Pin provider digests, groups providers/modules separately, **automerges lockfile maintenance**             |
 | `terragrunt.json`    | Terragrunt manager only. Groups non-major module bumps. No `dont-release` (Boilerplate/Atlantis deployments still get tagged)      |
 | `helm.json`          | Scoped to `charts/`, per-chart branch prefixes and commit messages, appVersion tracking via Docker tags                            |
