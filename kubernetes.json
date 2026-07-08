@@ -11,14 +11,12 @@
   "packageRules": [
     {
       "matchManagers": ["kubernetes"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "kubernetes images (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["kubernetes"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "kubernetes images (non-major)"
     }
   ]
 }

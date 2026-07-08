@@ -6,14 +6,12 @@
   "packageRules": [
     {
       "matchManagers": ["git-submodules"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "hugo themes (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["git-submodules"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "hugo themes (non-major)"
     }
   ]
 }

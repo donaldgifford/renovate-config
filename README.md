@@ -297,7 +297,7 @@ ecosystem preset.
 
 | Preset               | Description                                                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `go.json`            | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, `dont-release` for Go config files                                        |
+| `go.json`            | `gomodTidy`, `gomodUpdateImportPaths`, groups non-major, toolchain bumps labeled `minor`                                           |
 | `rust.json`          | `cargo` + `rust-toolchain` managers, `update-lockfile` range strategy, groups non-major, **automerges lockfile maintenance**       |
 | `node.json`          | `npm` + `bun` managers, `update-lockfile`, `yarnDedupeHighest`, groups non-major, **automerges `@types/*`**                        |
 | `python.json`        | `pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `pep621` (uv/hatch/PDM), `pip-compile`, `pyenv`. Groups non-major.            |

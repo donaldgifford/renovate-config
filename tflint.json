@@ -3,14 +3,12 @@
   "packageRules": [
     {
       "matchManagers": ["tflint-plugin"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "tflint plugins (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["tflint-plugin"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "tflint plugins (non-major)"
     }
   ]
 }

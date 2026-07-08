@@ -8,13 +8,7 @@
     {
       "matchManagers": ["kustomize"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "kustomize images (non-major)",
-      "addLabels": ["patch"]
-    },
-    {
-      "matchManagers": ["kustomize"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "groupName": "kustomize images (non-major)"
     }
   ]
 }

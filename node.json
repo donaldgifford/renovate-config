@@ -10,12 +10,14 @@
   "packageRules": [
     {
       "matchManagers": ["npm", "bun"],
+      "matchDepNames": ["!node", "!bun"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "node packages (non-major)",
       "addLabels": ["patch"]
     },
     {
       "matchManagers": ["npm", "bun"],
+      "matchDepNames": ["!node", "!bun"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor"]
     },

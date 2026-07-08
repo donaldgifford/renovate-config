@@ -15,15 +15,13 @@
     {
       "matchManagers": ["custom.regex"],
       "matchFileNames": ["**/.tool-versions"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "asdf tools (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["custom.regex"],
       "matchFileNames": ["**/.tool-versions"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "asdf tools (non-major)"
     }
   ]
 }

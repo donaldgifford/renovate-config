@@ -3,6 +3,9 @@
   "terraform": {
     "pinDigests": true
   },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchManagers": ["terraform"],
