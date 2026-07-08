@@ -3,14 +3,12 @@
   "packageRules": [
     {
       "matchManagers": ["homebrew"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "homebrew formulae (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["homebrew"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "homebrew formulae (non-major)"
     }
   ]
 }

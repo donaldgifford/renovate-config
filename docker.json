@@ -9,27 +9,23 @@
   "packageRules": [
     {
       "matchManagers": ["dockerfile", "docker-compose"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "docker images (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["dockerfile", "docker-compose"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker images (non-major)"
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/docker-bake.hcl"],
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["custom.regex"],
       "matchFileNames": ["**/docker-bake.hcl"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "docker-bake variables (non-major)",
-      "addLabels": ["patch", "dont-release"]
-    },
-    {
-      "matchManagers": ["custom.regex"],
-      "matchFileNames": ["**/docker-bake.hcl"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "groupName": "docker-bake variables (non-major)"
     }
   ],
   "customManagers": [

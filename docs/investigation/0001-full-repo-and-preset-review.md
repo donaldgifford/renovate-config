@@ -322,14 +322,23 @@ detectable by `renovate-config-validator` — they're all semantic. The P3 items
 compound the risk: no dogfooding and no example validation means these classes
 of bug recur silently.
 
+## Remediation Log
+
+- **P1 (1.1–1.5): fixed** — `fix/inv-0001-p1`. Label-stacking decision: option
+  (a), `dont-release` is exclusive. Infra presets restructured to "label-all
+  rule + label-less group rule"; go/node group rules exclude runtime deps via
+  `matchDepNames` negation; lockFileMaintenance enabled top-level in
+  rust/terraform; terragrunt example fixed; go.json dead rule deleted; mise.toml
+  forge annotation corrected. CLAUDE.md conventions and pitfalls updated to
+  match.
+- **P2, P3: open** — tracked as follow-up PRs 2–4 below.
+- **Forgejo verification (2.7): open** — PR 5 below.
+
 ## Recommendation
 
 Ordered by leverage:
 
-1. **Fix P1 now** (one PR): enable lockFileMaintenance in rust/terraform, decide
-   the label-stacking policy (recommend: `dont-release` is exclusive — strip
-   `patch`/`minor` from infra rules), fix the terragrunt example, drop or
-   implement the go.json dead rule, fix the mise.toml annotation.
+1. ~~**Fix P1 now** (one PR)~~ — done, see Remediation Log.
 2. **Dogfood + CI hardening** (one PR): add `renovate.json` to this repo,
    validate `docs/examples/*.json` in CI, pin renovate in validate.yml, commit
    or delete `scripts/`.

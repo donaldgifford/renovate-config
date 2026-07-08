@@ -6,12 +6,14 @@
   "packageRules": [
     {
       "matchManagers": ["gomod"],
+      "matchDepNames": ["!go"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "go modules (non-major)",
       "addLabels": ["patch"]
     },
     {
       "matchManagers": ["gomod"],
+      "matchDepNames": ["!go"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["minor"]
     },
@@ -19,10 +21,6 @@
       "matchDepNames": ["go"],
       "matchManagers": ["gomod"],
       "addLabels": ["minor"]
-    },
-    {
-      "matchFileNames": [".goreleaser.yml", ".golangci.yml"],
-      "addLabels": ["dont-release"]
     }
   ]
 }

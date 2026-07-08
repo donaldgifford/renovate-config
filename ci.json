@@ -9,8 +9,7 @@
     {
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "github actions (non-major)",
-      "addLabels": ["patch"]
+      "groupName": "github actions (non-major)"
     },
     {
       "matchManagers": ["github-actions"],
@@ -19,24 +18,13 @@
       "automerge": true
     },
     {
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor"]
-    },
-    {
       "matchDatasources": ["forgejo-tags", "forgejo-releases"],
       "registryUrls": ["https://forgejo.fartlab.dev/"]
     },
     {
       "matchDatasources": ["forgejo-tags", "forgejo-releases"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "forgejo actions (non-major)",
-      "addLabels": ["patch", "dont-release"]
-    },
-    {
-      "matchDatasources": ["forgejo-tags", "forgejo-releases"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "groupName": "forgejo actions (non-major)"
     },
     {
       "matchManagers": ["dockerfile"],

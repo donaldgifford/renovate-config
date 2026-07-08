@@ -12,7 +12,7 @@ yamllint = "1.37.1"
 prettier = "3.7.4"
 # renovate: datasource=github-releases depName=donaldgifford/makefmt
 "github:donaldgifford/makefmt" = "latest"
-# renovate: datasource=github-releases depName=donaldgifford/makefmt
+# renovate: datasource=github-releases depName=donaldgifford/forge
 "github:donaldgifford/forge" = "latest"
 # renovate: datasource=github-releases depName=mvdan/sh
 shfmt = "3.13.0"

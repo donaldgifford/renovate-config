@@ -6,14 +6,12 @@
   "packageRules": [
     {
       "matchManagers": ["mise"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "mise tools (non-major)",
-      "addLabels": ["patch", "dont-release"]
+      "addLabels": ["dont-release"]
     },
     {
       "matchManagers": ["mise"],
-      "matchUpdateTypes": ["major"],
-      "addLabels": ["minor", "dont-release"]
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "mise tools (non-major)"
     }
   ]
 }

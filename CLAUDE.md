@@ -21,18 +21,18 @@ to `default.json` only — `.json5` is not used here). Organized in three layers
 
 **Ecosystem (pick one or more):**
 
-- `go.json` — `gomodTidy`, `gomodUpdateImportPaths`, `dont-release` for
-  `.goreleaser.yml`/`.golangci.yml`
+- `go.json` — `gomodTidy`, `gomodUpdateImportPaths`, toolchain bumps labeled
+  `minor`
 - `rust.json` — `cargo` (with `update-lockfile`) + `rust-toolchain` managers,
-  **automerges lockfile maintenance**
+  enables + **automerges lockfile maintenance**
 - `node.json` — `npm` + `bun` managers (both `update-lockfile`),
   `yarnDedupeHighest`, **automerges `@types/*`**
 - `python.json` — `pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `pep621`
   (uv/hatch/PDM), `pip-compile` (lockfile strategies for the last three), and
   `pyenv` (`.python-version`)
 - `terraform.json` — Terraform modules repos. Pin provider digests, group
-  providers/modules separately, **automerges lockfile maintenance**. Does
-  **not** match `terragrunt`.
+  providers/modules separately, enables + **automerges lockfile maintenance**.
+  Does **not** match `terragrunt`.
 - `terragrunt.json` — Terragrunt deployment repos (Boilerplate-generated,
   Atlantis-applied). Groups non-major module bumps. No `dont-release` label —
   deployments still get released via Atlantis.
@@ -126,8 +126,16 @@ Tools managed via [mise](https://mise.jdx.dev/) (`mise.toml`):
   shorthand — stick with `.json`.
 - Only `default.json` sets `extends` and global automerge. Every preset sets
   `$schema` (harmless, helps editor completion).
-- Every preset must include: group non-major (`addLabels: ["patch"]`) and major
-  bumps (`addLabels: ["minor"]`)
+- **Exactly one semver label per PR** (`major`/`minor`/`patch`/`dont-release`) —
+  release tooling requires it. Release-relevant ecosystem presets (go, rust,
+  node, python, terraform, terragrunt, helm): group non-major with `patch`,
+  majors get `minor`. Infra presets (ci, docker, mise, kustomize, kubernetes,
+  argocd, tflint, homebrew, hugo, tool-versions): one rule labels **all**
+  updates `dont-release`, a second rule groups non-major with **no** labels.
+  Never stack `dont-release` with `patch`/`minor`.
+- Runtime deps (`go`, `node`, `bun`) are excluded from group rules via
+  `matchDepNames: ["!go"]`-style negation so the runtime rule's `minor` label
+  doesn't stack with the group's `patch`
 - **PR by default** — only set `automerge: true` for explicitly low-risk
   categories (lockfile maintenance, `@types/*`, trusted Actions publishers)
 - Don't add redundant `automerge: false` — base default already blocks it
@@ -156,8 +164,10 @@ regex. Custom regex is a last resort for tools without native support (typst,
 - `cargoUpdate` postUpdateOption doesn't exist — use
   `rangeStrategy: "update-lockfile"`
 - `managerFilePatterns` uses regex syntax wrapped in `/.../`, not glob
-- `lockFileMaintenance` is configured per packageRule via
-  `matchUpdateTypes: ["lockFileMaintenance"]`, not as a global key
+- `lockFileMaintenance` is **disabled by default** — a
+  `matchUpdateTypes: ["lockFileMaintenance"]` packageRule does nothing unless
+  the preset also sets `"lockFileMaintenance": { "enabled": true }` (top-level).
+  The packageRule only labels/automerges what enablement generates.
 - `terragrunt` is a separate manager from `terraform` — use `:terraform` for
   modules repos, `:terragrunt` for deployment repos, both if the repo mixes raw
   `.tf` files with `terragrunt.hcl`

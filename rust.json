@@ -3,6 +3,9 @@
   "cargo": {
     "rangeStrategy": "update-lockfile"
   },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchManagers": ["cargo"],
