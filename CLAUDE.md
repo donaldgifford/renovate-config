@@ -27,6 +27,9 @@ to `default.json` only — `.json5` is not used here). Organized in three layers
   **automerges lockfile maintenance**
 - `node.json` — `npm` + `bun` managers (both `update-lockfile`),
   `yarnDedupeHighest`, **automerges `@types/*`**
+- `python.json` — `pip_requirements`, `pip_setup`, `pipenv`, `poetry`, `pep621`
+  (uv/hatch/PDM), `pip-compile` (lockfile strategies for the last three), and
+  `pyenv` (`.python-version`)
 - `terraform.json` — Terraform modules repos. Pin provider digests, group
   providers/modules separately, **automerges lockfile maintenance**. Does
   **not** match `terragrunt`.
