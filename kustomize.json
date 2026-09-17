@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["kustomize"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["kustomize"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "kustomize images (non-major)"
+    }
+  ]
+}

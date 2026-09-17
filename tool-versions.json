@@ -1,0 +1,27 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)\\.tool-versions$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s+datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(\\s+versioning=(?<versioning>\\S+))?\\n\\w+\\s+(?<currentValue>\\S+)"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+      "extractVersionTemplate": "^v?(?<version>.*)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/.tool-versions"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/.tool-versions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "asdf tools (non-major)"
+    }
+  ]
+}

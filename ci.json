@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "github actions (non-major)"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchPackageNames": ["actions/**", "github/**", "docker/**"],
+      "automerge": true
+    },
+    {
+      "matchDatasources": ["forgejo-tags", "forgejo-releases"],
+      "registryUrls": ["https://forgejo.fartlab.dev/"]
+    },
+    {
+      "matchDatasources": ["forgejo-tags", "forgejo-releases"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "forgejo actions (non-major)"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchFileNames": [".github/**", ".forgejo/**", "Makefile"],
+      "addLabels": ["dont-release"]
+    }
+  ]
+}

@@ -3,6 +3,7 @@
   "extends": [
     "github>donaldgifford/renovate-config",
     "github>donaldgifford/renovate-config:terraform",
+    "github>donaldgifford/renovate-config:terragrunt",
     "github>donaldgifford/renovate-config:mise",
     "github>donaldgifford/renovate-config:ci"
   ]

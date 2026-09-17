@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "gomod": {
+    "postUpdateOptions": ["gomodTidy", "gomodUpdateImportPaths"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["!go"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "go modules (non-major)",
+      "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["!go"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    },
+    {
+      "matchDepNames": ["go"],
+      "matchManagers": ["gomod"],
+      "addLabels": ["minor"]
+    }
+  ]
+}

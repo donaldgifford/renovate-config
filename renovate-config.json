@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["renovate-config"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "renovate presets (non-major)",
+      "addLabels": ["patch", "dont-release"]
+    },
+    {
+      "matchManagers": ["renovate-config"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor", "dont-release"]
+    }
+  ]
+}

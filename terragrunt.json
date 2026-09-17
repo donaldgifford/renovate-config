@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["terragrunt"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "terragrunt modules (non-major)",
+      "addLabels": ["patch"]
+    },
+    {
+      "matchManagers": ["terragrunt"],
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["minor"]
+    }
+  ]
+}

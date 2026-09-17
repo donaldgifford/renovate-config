@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dockerfile": {
+    "pinDigests": true
+  },
+  "docker-compose": {
+    "pinDigests": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker images (non-major)"
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/docker-bake.hcl"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": ["**/docker-bake.hcl"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker-bake variables (non-major)"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)docker-bake\\.hcl$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*image=(?<depName>[^\\s]+)\\nvariable\\s+\"[^\"]+\"\\s*\\{\\s*default\\s*=\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ]
+}

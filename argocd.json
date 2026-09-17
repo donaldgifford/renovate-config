@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchManagers": ["argocd"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["argocd"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "argocd applications (non-major)"
+    }
+  ]
+}

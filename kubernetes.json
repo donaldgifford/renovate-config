@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/(^|/)k8s/.+\\.ya?ml$/",
+      "/(^|/)manifests/.+\\.ya?ml$/",
+      "/(^|/)deploy/.+\\.ya?ml$/",
+      "/(^|/)deployments/.+\\.ya?ml$/"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["kubernetes"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["kubernetes"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "kubernetes images (non-major)"
+    }
+  ]
+}

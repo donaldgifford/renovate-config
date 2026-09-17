@@ -20,7 +20,7 @@ jobs:
       - name: Validate all Renovate presets
         run: |
           status=0
-          for f in *.json5; do
+          for f in *.json; do
             echo "::group::Validating $f"
             if ! renovate-config-validator --strict "$f"; then
               echo "::error file=$f::Validation failed for $f"
@@ -30,5 +30,5 @@ jobs:
           done
           exit $status
 
-      - name: Check JSON5 formatting
-        run: npx prettier --check "*.json5"
+      - name: Check JSON formatting
+        run: npx prettier --check "*.json"

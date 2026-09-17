@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "git-submodules": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["git-submodules"],
+      "addLabels": ["dont-release"]
+    },
+    {
+      "matchManagers": ["git-submodules"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "hugo themes (non-major)"
+    }
+  ]
+}
