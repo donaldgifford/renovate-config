@@ -176,5 +176,9 @@ regex. Custom regex is a last resort for tools without native support (typst,
   grouping/labeling)
 - The `renovate-config` manager is named `renovate-config`, not
   `renovate-config-presets` (the latter is auto-migrated but flagged)
+- `pinDigests` on the `github-actions` manager also hits action inputs
+  (`depType: uses-with`, e.g. `version:` on `golangci-lint-action`), which
+  Renovate can't pin — the whole pin branch errors with `update failure`.
+  `ci.json` disables `pinDigests` for `uses-with`; keep that rule.
 - A custom regex manager whose `matchStrings` doesn't match the file format
   (e.g. HCL syntax against a YAML file) silently catches nothing
